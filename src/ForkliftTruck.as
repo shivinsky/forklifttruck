@@ -6,12 +6,12 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
-   [SWF(width="640", height="480", backgroundColor="#ffffff", frameRate="60")]
+   [SWF(width="640", height="480", backgroundColor="#ffffff", frameRate="40")]
 	public class ForkliftTruck extends Sprite
 	{
 		private var _fpsCounter:FpsCounter = new FpsCounter();
 		private var _version:Version = new Version();
-		private var _originalFrameRate:uint = 60; 
+		private var _originalFrameRate:uint = 40; 
 		private var _standbyFrameRate:uint = 0; 
 		private var _truck:Truck = new Truck();
 		
