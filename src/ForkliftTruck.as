@@ -6,14 +6,13 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
-   [SWF(width="640", height="480", backgroundColor="#ffffff", frameRate="40")]
+   [SWF(width="640", height="480", backgroundColor="#ffffff", frameRate="60")]
 	public class ForkliftTruck extends Sprite
 	{
 		private var _fpsCounter:FpsCounter = new FpsCounter();
 		private var _version:Version = new Version();
-		private var _originalFrameRate:uint = 40; 
+		private var _originalFrameRate:uint = 60; 
 		private var _standbyFrameRate:uint = 0; 
-		private var _truck:Truck = new Truck();
 		
 		public function ForkliftTruck() 
 		{
@@ -29,7 +28,7 @@ package
 			
 			addChild(_fpsCounter);
 			addChild(_version);
-			addChild(_truck);
+			addChild(new Truck());
 			addEventListener(Event.ENTER_FRAME, update);
 			addEventListener(Event.ACTIVATE, activate); 
 			addEventListener(Event.DEACTIVATE, deactivate);

@@ -3,6 +3,7 @@ package game
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.utils.getTimer;
 	
 	import flash.geom.*;
 	
@@ -18,9 +19,8 @@ package game
 		private var _world:b2World;
 		
 		private var _timeStep:Number;
-		private var _iterations:uint = 5;
-
-		private var _scale:uint = 20;
+		private var _iterations:uint = 10;
+		private var _scale:Number = 30;
 		private var _gravity:b2Vec2 = new b2Vec2(0, 9.8);
 		
 		private var _width:uint;
@@ -42,45 +42,54 @@ package game
 		
 		private function create(e:Event) : void
 		{
-			_timeStep = 1 / stage.frameRate;
+			_timeStep = 1.0 / stage.frameRate;
 			_width = stage.stageWidth;
 			_height = stage.stageHeight;
 			
 			_world = new b2World(_gravity, true);
 			
-			// setDebugDraw();
+		    // setDebugDraw();
 			
-			_groundPos = new b2Vec2(200, _height - 170);
-			_groundSize = new b2Vec2(_width / 4, 70);
+			_groundPos = new b2Vec2(0, _height - 35);
+			_groundSize = new b2Vec2(_width, 35);
 			createPlatform(_groundPos, _groundSize);
 			
-			createWheel(new b2Vec2(100, 100), 30);
-			createWheel(new b2Vec2(200, 100), 30);
+			for (var i:int = 1; i < 6; i++) 
+			{
+				createWheel(new b2Vec2(i * 100, 200), 30);
+				createWheel(new b2Vec2(i * 100, 100), 30);
+				createBody(new b2Vec2(i * 120, 10), new b2Vec2(150, 120));
+			}
 			
-			addEventListener(Event.ENTER_FRAME, update);
+			// var truck:TruckModel = new TruckModel(_world, _scale);
+		    // addChild(truck);
+			
+			addEventListener(Event.ENTER_FRAME, update);	
+			
+			graphics.beginBitmapFill(_debugBitmap);
+			graphics.drawRect(_groundPos.x, _groundPos.y, _groundSize.x, _groundSize.y);
+			graphics.endFill();	
 		}
 		
 		private function destroy(e:Event) : void
 		{
 			removeEventListener(Event.ENTER_FRAME, update);	
 		}
-		
+			
 		private function update(e:Event) : void
 		{
 			_world.Step(_timeStep, _iterations, _iterations);
 			_world.ClearForces();
-			_world.DrawDebugData();
+		    _world.DrawDebugData();
 			for (var body:b2Body = _world.GetBodyList(); body; body = body.GetNext()) {
-				if (body.GetUserData() is Sprite) {
+				if (body.GetUserData() is Sprite) 
+				{
 					var sprite:Sprite = body.GetUserData();
 					sprite.x = body.GetPosition().x * _scale;
 					sprite.y = body.GetPosition().y * _scale;
 					sprite.rotation = body.GetAngle() * 180 / Math.PI;
 				}
 			}
-			graphics.beginBitmapFill(_debugBitmap);
-			graphics.drawRect(_groundPos.x - _groundSize.x, _groundPos.y - _groundSize.y, _groundSize.x * 2, _groundSize.y * 2);
-			graphics.endFill();
 		}
 		
 		private function setDebugDraw() : void
@@ -95,44 +104,82 @@ package game
 			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
 			_world.SetDebugDraw(debugDraw);
 		}
-		
-		private function createPlatform(position:b2Vec2, size:b2Vec2) : void 
+				
+		private function toMeter(value:Number) : Number
 		{
+			return value / _scale;
+		}	
+		
+		private function createPlatform(posInPixels:b2Vec2, sizeInPixels:b2Vec2) : void 
+		{
+			var pos:b2Vec2 = new b2Vec2(toMeter(posInPixels.x), toMeter(posInPixels.y));
+			var size:b2Vec2 = new b2Vec2(toMeter(sizeInPixels.x), toMeter(sizeInPixels.y));
+			
 			var bodyDef:b2BodyDef = new b2BodyDef();
-			bodyDef.position.Set(position.x / _scale, position.y / _scale);
+			bodyDef.position.Set(pos.x + size.x / 2, pos.y + size.y / 2);
 			
 			var body:b2Body = _world.CreateBody(bodyDef);
 			
 			var polygonShape:b2PolygonShape = new b2PolygonShape();
-			polygonShape.SetAsBox(size.x / _scale, size.y / _scale);
+			polygonShape.SetAsBox(size.x / 2, size.y / 2);
 			
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 1;
+			fixtureDef.density = 0;
 			fixtureDef.friction = 1;
 			body.CreateFixture(fixtureDef);
 		}
 		
-		private function createWheel(position:b2Vec2, radius:uint) : void
+		private function createWheel(posInPixels:b2Vec2, radiusInPixels:Number) : void
 		{
+			var pos:b2Vec2 = new b2Vec2(toMeter(posInPixels.x), toMeter(posInPixels.y));
+			var radius:Number = toMeter(radiusInPixels);
+			
 			var bodyDef:b2BodyDef = new b2BodyDef();
 			bodyDef.type = b2Body.b2_dynamicBody;
-			bodyDef.position.Set(position.x / _scale, position.y / _scale);
-			bodyDef.userData = new WheelTexture();
-			bodyDef.userData.width = 2 * radius;
-			bodyDef.userData.height = 2 * radius;
+			bodyDef.position.Set(pos.x, pos.y);
+			bodyDef.userData = new WheelSprite();
+			bodyDef.userData.cacheAsBitmap = true;
+			bodyDef.userData.width = 2 * radiusInPixels;
+			bodyDef.userData.height = 2 * radiusInPixels;
 			addChild(bodyDef.userData);
 			
 			var body:b2Body = _world.CreateBody(bodyDef);
 
-			var circleShape:b2CircleShape = new b2CircleShape();
-			circleShape.SetRadius(radius / _scale);
-
+			var circleShape:b2CircleShape = new b2CircleShape(radius);
+	
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = circleShape;
 			fixtureDef.density = 1;
 			fixtureDef.friction = 1;
-			fixtureDef.restitution = 0.8;
+			fixtureDef.restitution = 0.98;
+			body.CreateFixture(fixtureDef);
+		}
+		
+		private function createBody(posInPixels:b2Vec2, sizeInPixels:b2Vec2):void
+		{
+			var pos:b2Vec2 = new b2Vec2(toMeter(posInPixels.x), toMeter(posInPixels.y));
+			var size:b2Vec2 = new b2Vec2(toMeter(sizeInPixels.x), toMeter(sizeInPixels.y));
+			
+			var bodyDef:b2BodyDef = new b2BodyDef();
+			bodyDef.type = b2Body.b2_dynamicBody;
+			bodyDef.position.Set(pos.x + size.x / 2, pos.y + size.y / 2);
+			
+			bodyDef.userData = new BodySprite();
+			bodyDef.userData.cacheAsBitmap = true;
+			bodyDef.userData.width = sizeInPixels.x;
+			bodyDef.userData.height = sizeInPixels.y;
+			addChild(bodyDef.userData);
+			
+			var body:b2Body = _world.CreateBody(bodyDef);
+	
+			var polygonShape:b2PolygonShape = new b2PolygonShape();
+			polygonShape.SetAsBox(size.x / 2, size.y / 2);
+			
+			var fixtureDef:b2FixtureDef = new b2FixtureDef();
+			fixtureDef.shape = polygonShape;
+			fixtureDef.density = 5;
+			fixtureDef.friction = 0.7;
 			body.CreateFixture(fixtureDef);
 		}
 		
