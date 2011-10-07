@@ -56,9 +56,9 @@ package game
 			
 			for (var i:int = 1; i < 6; i++) 
 			{
-				createWheel(new b2Vec2(i * 100, 200), 30);
-				createWheel(new b2Vec2(i * 100, 100), 30);
-				createBody(new b2Vec2(i * 120, 10), new b2Vec2(150, 120));
+				createWheel(new b2Vec2(i * 100, 200), 24);
+				createWheel(new b2Vec2(i * 100, 100), 24);
+				createBody(new b2Vec2(i * 120, 10), new b2Vec2(45, 45));
 			}
 			
 			// var truck:TruckModel = new TruckModel(_world, _scale);
@@ -152,7 +152,7 @@ package game
 			fixtureDef.shape = circleShape;
 			fixtureDef.density = 1;
 			fixtureDef.friction = 1;
-			fixtureDef.restitution = 0.98;
+			fixtureDef.restitution = 0.3;
 			body.CreateFixture(fixtureDef);
 		}
 		
@@ -165,7 +165,7 @@ package game
 			bodyDef.type = b2Body.b2_dynamicBody;
 			bodyDef.position.Set(pos.x + size.x / 2, pos.y + size.y / 2);
 			
-			bodyDef.userData = new BodySprite();
+			bodyDef.userData = new WoodBoxSprite();
 			bodyDef.userData.cacheAsBitmap = true;
 			bodyDef.userData.width = sizeInPixels.x;
 			bodyDef.userData.height = sizeInPixels.y;
