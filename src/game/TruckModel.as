@@ -24,12 +24,12 @@ package game
 		private var _fork:b2Body;
 		private var _forkJoint:b2PrismaticJoint;
 		
-		public function TruckModel(world:b2World, scale:Number) 
+		public function TruckModel(position:b2Vec2, world:b2World, scale:Number) 
 		{
 			_world = world;
 			_scale = scale;
 			
-			_body = createBody(new b2Vec2(200, 200), new b2Vec2(123, 103));	
+			_body = createBody(position, new b2Vec2(123, 103));	
 			/*var leftAxleFixture:b2FixtureDef = createAxleFixture(new b2Vec2(10, 30), -60, 20, 15);
 			var rightAxleFixture:b2FixtureDef = createAxleFixture(new b2Vec2(10, 30), 60, 20, - 15);
 			_body.CreateFixture(leftAxleFixture);
@@ -38,9 +38,9 @@ package game
 			//var leftAxle:b2Body = createAxle(new b2Vec2(20, 20), new b2Vec2(-50, 0), -60, 20, 20);
 		    //var rightAxle:b2Body = createAxle(new b2Vec2(20, 20), new b2Vec2(50, 0), 60, 20, 20);
 			
-			_leftWheel = createWheel(new b2Vec2(230, 289), 24);
-			_rightWheel = createWheel(new b2Vec2(295, 289), 24);
-			_fork = createFork(new b2Vec2(154, 200), new b2Vec2(46,41))
+			_leftWheel = createWheel(new b2Vec2(position.x + 30, position.y + 89), 24);
+			_rightWheel = createWheel(new b2Vec2(position.x + 95, position.y + 89), 24);
+			_fork = createFork(new b2Vec2(position.x - 46, position.y), new b2Vec2(46, 41))
 				
 			var leftRevoluteJointDef:b2RevoluteJointDef = new  b2RevoluteJointDef();
 			leftRevoluteJointDef.Initialize(_leftWheel, _body, _leftWheel.GetWorldCenter());
@@ -55,7 +55,7 @@ package game
 			_rightWheelJoint = _world.CreateJoint(rightRevoluteJointDef) as b2RevoluteJoint;
 			
 			var forkPrismaticJointDef: b2PrismaticJointDef = new b2PrismaticJointDef();
-			var axis : b2Vec2 = new b2Vec2(0, 1);
+			var axis: b2Vec2 = new b2Vec2(0, 1);
 			forkPrismaticJointDef.Initialize(_fork, _body, _fork.GetWorldCenter(), axis);
 			forkPrismaticJointDef.lowerTranslation = -2.3;
 			forkPrismaticJointDef.upperTranslation = 0;

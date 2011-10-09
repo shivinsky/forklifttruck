@@ -79,8 +79,11 @@ package game
 			}
 			
 			 createBody(new b2Vec2(150, 50), new b2Vec2(45, 45));
-			_truckModel = new TruckModel(_world, _scale);
+			_truckModel = new TruckModel(new b2Vec2(200, 400), _world, _scale);
 		    addChild(_truckModel);
+			
+			addChild(new TruckModel(new b2Vec2(400, 400), _world, _scale));
+			addChild(new TruckModel(new b2Vec2(600, 400), _world, _scale));
 			
 			addEventListener(Event.ENTER_FRAME, update);	
 			
