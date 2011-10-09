@@ -1,15 +1,13 @@
 package  
 {
 	import game.Truck;
-	import debug.FpsCounter;
-	import debug.Version;
+	import framework.SWFProfiler;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
 	public class ForkliftTruck extends Sprite
 	{
-		private var _fpsCounter:FpsCounter = new FpsCounter();
-		private var _version:Version = new Version();
+
 		private var _originalFrameRate:uint = 60; 
 		private var _standbyFrameRate:uint = 0; 
 		
@@ -23,10 +21,9 @@ package
 		{
 			stage.frameRate = _originalFrameRate;
 			
-			_version.y += 20;
+			SWFProfiler.init(stage, this);
+			SWFProfiler.show();
 			
-			addChild(_fpsCounter);
-			addChild(_version);
 			addChild(new Truck());
 			addEventListener(Event.ENTER_FRAME, update);
 			addEventListener(Event.ACTIVATE, activate); 
