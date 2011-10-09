@@ -70,20 +70,18 @@ package game
 			_groundPos = new b2Vec2(0, _height - 25);
 			_groundSize = new b2Vec2(_width, 25);
 			createPlatform(_groundPos, _groundSize);
-			
-			for (var i:int = 1; i < 1; i++) 
-			{
-			    createWheel(new b2Vec2(i * 100, 200), 24);
-			    createWheel(new b2Vec2(i * 100, 100), 24);
-			    createBody(new b2Vec2(i * 120, 10), new b2Vec2(45, 45));
-			}
-			
+						
 			 createBody(new b2Vec2(150, 50), new b2Vec2(45, 45));
 			_truckModel = new TruckModel(new b2Vec2(200, 400), _world, _scale);
 		    addChild(_truckModel);
 			
 			addChild(new TruckModel(new b2Vec2(400, 400), _world, _scale));
 			addChild(new TruckModel(new b2Vec2(600, 400), _world, _scale));
+			
+			for (var i:int = 1; i < 15; i++) 
+			{
+			    createBody(new b2Vec2(i * 50, 10), new b2Vec2(45, 45));
+			}
 			
 			addEventListener(Event.ENTER_FRAME, update);	
 			
