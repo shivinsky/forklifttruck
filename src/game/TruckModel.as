@@ -125,7 +125,7 @@ package game
 			var fixture:b2FixtureDef = new b2FixtureDef();
 			fixture.shape = shapeCab;
 			fixture.density = 30;
-			fixture.friction = 3;
+			fixture.friction = 1;
 			fixture.restitution = 0;
 		    fixture.filter.groupIndex = - 1;
 			
@@ -183,7 +183,7 @@ package game
 			var fixture:b2FixtureDef = new b2FixtureDef();
 			fixture.shape = shape;
 			fixture.density = 1;
-			fixture.friction = 2;
+			fixture.friction = 1;
 			fixture.restitution = 0;
 			fixture.filter.groupIndex = - 1;
 			
@@ -219,7 +219,7 @@ package game
 			fixture.shape = shape;
 			fixture.restitution = 0;
 			fixture.density = 0.5;
-			fixture.friction = 3;
+			fixture.friction = 1;
 			fixture.filter.groupIndex = - 1;
 			
 			var bodyDef:b2BodyDef = new b2BodyDef();

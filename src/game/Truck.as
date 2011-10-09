@@ -165,7 +165,7 @@ package game
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = polygonShape;
 			fixtureDef.density = 0;
-			fixtureDef.friction = 0.4;
+			fixtureDef.friction = 1;
 			body.CreateFixture(fixtureDef);
 		}
 		
@@ -217,8 +217,8 @@ package game
 			
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 1;
-			fixtureDef.friction = 5;
+			fixtureDef.density = 0.2;
+			fixtureDef.friction = 1;
 			fixtureDef.restitution = 0.1;
 			body.CreateFixture(fixtureDef);
 		}
