@@ -6,7 +6,6 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
-   [SWF(width="640", height="480", backgroundColor="#ffffff", frameRate="60")]
 	public class ForkliftTruck extends Sprite
 	{
 		private var _fpsCounter:FpsCounter = new FpsCounter();

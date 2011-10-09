@@ -2,7 +2,11 @@ package game
 {
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
+	import flash.display.Shape;
+	import flash.display.GradientType;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
 	import flash.utils.getTimer;
 	
 	import flash.geom.*;
@@ -34,6 +38,11 @@ package game
 		private var _groundPos:b2Vec2;
 		private var _groundSize:b2Vec2;
 		
+		private var _truckModel:TruckModel;
+		private var _truckSpeed:Number = 0;
+		private var _left:Boolean = false;
+		private var _right:Boolean = false;
+		
 		public function Truck() 
 		{									
 			addEventListener(Event.ADDED_TO_STAGE, create, false, 0, true);
@@ -46,29 +55,44 @@ package game
 			_width = stage.stageWidth;
 			_height = stage.stageHeight;
 			
+			var skyBox:Shape = new Shape(); 
+			var gradientBoxMatrix:Matrix = new Matrix(); 
+			gradientBoxMatrix.createGradientBox(800, 600, Math.PI / 2, 0, 60); 
+			skyBox.graphics.beginGradientFill(GradientType.LINEAR, [0x0066FF, 0xFFFFF0], [0.2, 1], [0, 255], gradientBoxMatrix); 
+			skyBox.graphics.drawRect(0, 0, 800, 600); 
+			skyBox.graphics.endFill();
+			addChild(skyBox);
+			
 			_world = new b2World(_gravity, true);
 			
-		    // setDebugDraw();
+		    setDebugDraw();
 			
-			_groundPos = new b2Vec2(0, _height - 35);
-			_groundSize = new b2Vec2(_width, 35);
+			_groundPos = new b2Vec2(0, _height - 25);
+			_groundSize = new b2Vec2(_width, 25);
 			createPlatform(_groundPos, _groundSize);
 			
-			for (var i:int = 1; i < 6; i++) 
+			for (var i:int = 1; i < 1; i++) 
 			{
-				createWheel(new b2Vec2(i * 100, 200), 24);
-				createWheel(new b2Vec2(i * 100, 100), 24);
-				createBody(new b2Vec2(i * 120, 10), new b2Vec2(45, 45));
+			    createWheel(new b2Vec2(i * 100, 200), 24);
+			    createWheel(new b2Vec2(i * 100, 100), 24);
+			    createBody(new b2Vec2(i * 120, 10), new b2Vec2(45, 45));
 			}
 			
-			// var truck:TruckModel = new TruckModel(_world, _scale);
-		    // addChild(truck);
+			 createBody(new b2Vec2(150, 50), new b2Vec2(45, 45));
+			_truckModel = new TruckModel(_world, _scale);
+		    addChild(_truckModel);
 			
 			addEventListener(Event.ENTER_FRAME, update);	
 			
-			graphics.beginBitmapFill(_debugBitmap);
-			graphics.drawRect(_groundPos.x, _groundPos.y, _groundSize.x, _groundSize.y);
-			graphics.endFill();	
+			var box:Shape = new Shape(); 
+			box.graphics.beginBitmapFill(_debugBitmap);
+			box.graphics.drawRect(_groundPos.x, _groundPos.y, _groundSize.x, _groundSize.y);
+			box.graphics.endFill();
+			addChild(box);
+			
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownListener);
+			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpListener);
+			
 		}
 		
 		private function destroy(e:Event) : void
@@ -80,9 +104,10 @@ package game
 		{
 			_world.Step(_timeStep, _iterations, _iterations);
 			_world.ClearForces();
-		    _world.DrawDebugData();
-			for (var body:b2Body = _world.GetBodyList(); body; body = body.GetNext()) {
-				if (body.GetUserData() is Sprite) 
+		    // _world.DrawDebugData();
+			
+		    for (var body:b2Body = _world.GetBodyList(); body; body = body.GetNext()) {
+			 	if (body.GetUserData() is Sprite) 
 				{
 					var sprite:Sprite = body.GetUserData();
 					sprite.x = body.GetPosition().x * _scale;
@@ -90,6 +115,20 @@ package game
 					sprite.rotation = body.GetAngle() * 180 / Math.PI;
 				}
 			}
+			
+			_truckSpeed = 0;
+			
+			if (_left)
+				_truckSpeed = 5;
+			else if (_right)
+				_truckSpeed = - 5;
+				
+			// if (_truckSpeed > 5)
+			// 	_truckSpeed = 5;
+			// else if (_truckSpeed < - 5)
+			// 	_truckSpeed = - 5;
+								
+			_truckModel.setSpeed(_truckSpeed);
 		}
 		
 		private function setDebugDraw() : void
@@ -126,7 +165,7 @@ package game
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = polygonShape;
 			fixtureDef.density = 0;
-			fixtureDef.friction = 1;
+			fixtureDef.friction = 0.4;
 			body.CreateFixture(fixtureDef);
 		}
 		
@@ -150,8 +189,8 @@ package game
 	
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = circleShape;
-			fixtureDef.density = 1;
-			fixtureDef.friction = 1;
+			fixtureDef.density = 3;
+			fixtureDef.friction = 0.2;
 			fixtureDef.restitution = 0.3;
 			body.CreateFixture(fixtureDef);
 		}
@@ -178,11 +217,35 @@ package game
 			
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 5;
-			fixtureDef.friction = 0.7;
+			fixtureDef.density = 1;
+			fixtureDef.friction = 5;
+			fixtureDef.restitution = 0.1;
 			body.CreateFixture(fixtureDef);
 		}
 		
+		private function keyDownListener(e:KeyboardEvent):void
+		{
+			if (e.keyCode == Keyboard.DOWN)
+				_truckModel.setForkSpeed( - 2);
+			else if (e.keyCode == Keyboard.UP)
+				_truckModel.setForkSpeed(2);
+		    if (e.keyCode == Keyboard.LEFT)
+				_left = true;
+			if (e.keyCode == Keyboard.RIGHT)
+				_right = true;		
+		}
+		
+		private function keyUpListener(e:KeyboardEvent):void
+		{
+			if (e.keyCode == Keyboard.DOWN || e.keyCode == Keyboard.UP)
+				_truckModel.setForkSpeed(0);
+			if (e.keyCode == Keyboard.LEFT)
+				_left = false;
+			if (e.keyCode == Keyboard.RIGHT)
+				_right = false;
+				
+		}
+
 	}
 
 }
