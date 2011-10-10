@@ -370,7 +370,7 @@ public class b2PrismaticJoint extends b2Joint
 			m_a2 = r2X * m_axis.y - r2Y * m_axis.x;
 			
 			m_motorMass = m_invMassA + m_invMassB + m_invIA * m_a1 * m_a1 + m_invIB * m_a2 * m_a2; 
-			if(m_motorMass > Number.MIN_VALUE)
+			if (m_motorMass > Number.MIN_VALUE)
 				m_motorMass = 1.0 / m_motorMass;
 		}
 		
@@ -667,7 +667,8 @@ public class b2PrismaticJoint extends b2Joint
 			else if (translation >= m_upperTranslation)
 			{
 				// Prevent large angular corrections and allow some slop.
-				C2 = b2Math.Clamp(translation - m_upperTranslation + b2Settings.b2_linearSlop, 0.0, b2Settings.b2_maxLinearCorrection);
+				// FIXED
+				C2 = b2Math.Clamp(translation - m_upperTranslation - b2Settings.b2_linearSlop, 0.0, b2Settings.b2_maxLinearCorrection);
 				linearError = translation - m_upperTranslation;
 				active = true;
 			}
@@ -686,7 +687,7 @@ public class b2PrismaticJoint extends b2Joint
 		
 		linearError = b2Math.Max(linearError, b2Math.Abs(C1X));
 		angularError = b2Math.Abs(C1Y);
-		
+	
 		if (active)
 		{
 			m1 = m_invMassA;

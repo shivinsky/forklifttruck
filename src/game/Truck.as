@@ -24,7 +24,7 @@ package game
 		private var _world:b2World;
 		
 		private var _timeStep:Number;
-		private var _iterations:uint = 100;
+		private var _iterations:uint = 10;
 		private var _scale:Number = 30;
 		private var _gravity:b2Vec2 = new b2Vec2(0, 9.8);
 		
@@ -119,7 +119,6 @@ package game
 				}
 			}
 			
-			
 			_truckSpeed = 0;
 			
 			if (_left)
@@ -144,7 +143,7 @@ package game
 			debugDraw.SetFillAlpha(0.5);
 			debugDraw.SetLineThickness(2.0);
 			debugDraw.SetDrawScale(_scale);
-			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit);
 			_world.SetDebugDraw(debugDraw);
 		}
 				
@@ -213,6 +212,7 @@ package game
 			bodyDef.userData.width = sizeInPixels.x;
 			bodyDef.userData.height = sizeInPixels.y;
 			bodyDef.bullet = true;
+			bodyDef.fixedRotation = true;
 			addChild(bodyDef.userData);
 			
 			var body:b2Body = _world.CreateBody(bodyDef);
@@ -222,7 +222,7 @@ package game
 			
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 1;
+			fixtureDef.density = 0.5;
 			fixtureDef.friction = 1;
 			fixtureDef.restitution = 0;
 			body.CreateFixture(fixtureDef);

@@ -4,6 +4,7 @@ package game
 	import Box2D.Collision.*;
 	import Box2D.Collision.Shapes.*;
 	import Box2D.Common.Math.*;
+	import Box2D.Common.b2Settings;
 	import Box2D.Dynamics.Joints.*;
 	
 	import flash.display.Sprite;
@@ -60,8 +61,8 @@ package game
 			forkPrismaticJointDef.lowerTranslation = -2.3;
 			forkPrismaticJointDef.upperTranslation = 0;
 			forkPrismaticJointDef.enableLimit = true;
-			forkPrismaticJointDef.maxMotorForce = 150.0;
-			forkPrismaticJointDef.motorSpeed = 0.0;
+			forkPrismaticJointDef.maxMotorForce = 550;
+			forkPrismaticJointDef.motorSpeed = 0;
 			forkPrismaticJointDef.enableMotor = true;
 			_forkJoint = _world.CreateJoint(forkPrismaticJointDef) as b2PrismaticJoint;
 			
@@ -122,7 +123,7 @@ package game
 			
 			var fixture:b2FixtureDef = new b2FixtureDef();
 			fixture.shape = shapeCabin;
-			fixture.density = 3;
+			fixture.density = 15;
 			fixture.friction = 1;
 			fixture.restitution = 0;
 		    fixture.filter.groupIndex = - 1;
@@ -190,8 +191,8 @@ package game
 			
 			var fixture:b2FixtureDef = new b2FixtureDef();
 			fixture.shape = shape;
-			fixture.density = 1;
-			fixture.friction = 0.1;
+			fixture.density = 3;
+			fixture.friction = 0.5;
 			fixture.restitution = 0;
 			fixture.filter.groupIndex = - 1;
 			
@@ -249,13 +250,14 @@ package game
 				_leftWheelJoint.SetMotorSpeed(speed);
 				_rightWheelJoint.SetMotorSpeed(speed);
 			}
-			// _leftWheel.ApplyTorque(speed);
-			// _rightWheel.ApplyTorque(speed);
 		}
 		
 		public function setForkSpeed(speed:Number):void
 		{
-			_forkJoint.SetMotorSpeed(speed);
+			if (_forkJoint.GetMotorSpeed() != speed)
+			{
+				_forkJoint.SetMotorSpeed(speed);
+			}
 		}
 		
 	}
