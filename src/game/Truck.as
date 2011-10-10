@@ -9,6 +9,7 @@ package game
 	import flash.ui.Keyboard;
 	import flash.utils.getTimer;
 	
+	
 	import flash.geom.*;
 	
 	import Box2D.Dynamics.*;
@@ -23,7 +24,7 @@ package game
 		private var _world:b2World;
 		
 		private var _timeStep:Number;
-		private var _iterations:uint = 10;
+		private var _iterations:uint = 100;
 		private var _scale:Number = 30;
 		private var _gravity:b2Vec2 = new b2Vec2(0, 9.8);
 		
@@ -71,7 +72,8 @@ package game
 			_groundSize = new b2Vec2(_width, 25);
 			createPlatform(_groundPos, _groundSize);
 						
-			 createBody(new b2Vec2(150, 50), new b2Vec2(45, 45));
+    	    createBody(new b2Vec2(50, 50), new b2Vec2(45, 45));
+			createBody(new b2Vec2(50, 0), new b2Vec2(45, 45));
 			_truckModel = new TruckModel(new b2Vec2(200, 400), _world, _scale);
 		    addChild(_truckModel);
 			
@@ -80,7 +82,7 @@ package game
 			
 			for (var i:int = 1; i < 15; i++) 
 			{
-			    createBody(new b2Vec2(i * 50, 10), new b2Vec2(45, 45));
+		//	    createBody(new b2Vec2(i * 50, 10), new b2Vec2(45, 45));
 			}
 			
 			addEventListener(Event.ENTER_FRAME, update);	
@@ -105,7 +107,7 @@ package game
 		{
 			_world.Step(_timeStep, _iterations, _iterations);
 			_world.ClearForces();
-		    // _world.DrawDebugData();
+		    _world.DrawDebugData();
 			
 		    for (var body:b2Body = _world.GetBodyList(); body; body = body.GetNext()) {
 			 	if (body.GetUserData() is Sprite) 
@@ -117,12 +119,13 @@ package game
 				}
 			}
 			
+			
 			_truckSpeed = 0;
 			
 			if (_left)
-				_truckSpeed = 5;
+				_truckSpeed = 3.5;
 			else if (_right)
-				_truckSpeed = - 5;
+				_truckSpeed = - 3.5;
 				
 			// if (_truckSpeed > 5)
 			// 	_truckSpeed = 5;
@@ -209,6 +212,7 @@ package game
 			bodyDef.userData.cacheAsBitmap = true;
 			bodyDef.userData.width = sizeInPixels.x;
 			bodyDef.userData.height = sizeInPixels.y;
+			bodyDef.bullet = true;
 			addChild(bodyDef.userData);
 			
 			var body:b2Body = _world.CreateBody(bodyDef);
@@ -218,9 +222,15 @@ package game
 			
 			var fixtureDef:b2FixtureDef = new b2FixtureDef();
 			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 0.2;
+			fixtureDef.density = 1;
 			fixtureDef.friction = 1;
-			fixtureDef.restitution = 0.1;
+			fixtureDef.restitution = 0;
+			body.CreateFixture(fixtureDef);
+			
+			var bottomShape:b2PolygonShape = new b2PolygonShape();
+			bottomShape.SetAsOrientedBox(size.x / 2, 0.02, new b2Vec2(0, size.y / 2 + 0.2));
+
+			fixtureDef.shape = bottomShape;
 			body.CreateFixture(fixtureDef);
 		}
 		

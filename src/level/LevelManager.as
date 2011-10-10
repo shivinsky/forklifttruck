@@ -1,14 +1,16 @@
 package level 
 {
-
+	import flash.utils.getQualifiedClassName;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getTimer;
+	
 	public class LevelManager 
 	{
-		private _levels:Array = new Array();
+		private var _levels:Array = [ Level];
 		
 		public function LevelManager() 
 		{
-			_levels[0] = new Level1();
-			_levels[1] = new Level2();
+
 		}
 		
 	}

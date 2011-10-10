@@ -44,13 +44,13 @@ package game
 				
 			var leftRevoluteJointDef:b2RevoluteJointDef = new  b2RevoluteJointDef();
 			leftRevoluteJointDef.Initialize(_leftWheel, _body, _leftWheel.GetWorldCenter());
-			leftRevoluteJointDef.maxMotorTorque = 100.0;
+			leftRevoluteJointDef.maxMotorTorque = 75.0;
 			leftRevoluteJointDef.enableMotor = true;
 			_leftWheelJoint = _world.CreateJoint(leftRevoluteJointDef) as b2RevoluteJoint;
 			
 			var rightRevoluteJointDef:b2RevoluteJointDef = new  b2RevoluteJointDef();
 			rightRevoluteJointDef.Initialize(_rightWheel, _body, _rightWheel.GetWorldCenter());
-			rightRevoluteJointDef.maxMotorTorque = 100.0;
+			rightRevoluteJointDef.maxMotorTorque = 75.0;
 			rightRevoluteJointDef.enableMotor = true;
 			_rightWheelJoint = _world.CreateJoint(rightRevoluteJointDef) as b2RevoluteJoint;
 			
@@ -60,7 +60,7 @@ package game
 			forkPrismaticJointDef.lowerTranslation = -2.3;
 			forkPrismaticJointDef.upperTranslation = 0;
 			forkPrismaticJointDef.enableLimit = true;
-			forkPrismaticJointDef.maxMotorForce = 100.0;
+			forkPrismaticJointDef.maxMotorForce = 150.0;
 			forkPrismaticJointDef.motorSpeed = 0.0;
 			forkPrismaticJointDef.enableMotor = true;
 			_forkJoint = _world.CreateJoint(forkPrismaticJointDef) as b2PrismaticJoint;
@@ -75,9 +75,9 @@ package game
 			
 			var fixture:b2FixtureDef = new b2FixtureDef();
 			fixture.shape = shape;
-			fixture.density = 1;
+			fixture.density = 10;
 			fixture.friction = 1;
-			fixture.restitution = 0.2;
+			fixture.restitution = 0.1;
 			fixture.filter.groupIndex = -1;
 			
 			var bodyDef:b2BodyDef = new b2BodyDef();	
@@ -110,33 +110,41 @@ package game
 			addChild(bodyDef.userData);
 			
 			var body:b2Body = _world.CreateBody(bodyDef);
+						
+			var shapeCabin:b2PolygonShape = new b2PolygonShape();
+			var verticesCabin:Array = new Array();
+			verticesCabin.push(new b2Vec2(- 50 / _scale, 42 / _scale));
+			verticesCabin.push(new b2Vec2(- 50 / _scale, 6 / _scale));
+			verticesCabin.push(new b2Vec2(- 35 / _scale, - 35 / _scale));
+			verticesCabin.push(new b2Vec2(10 / _scale, - 35 / _scale));
+			verticesCabin.push(new b2Vec2(10 / _scale, 42 / _scale));	
+            shapeCabin.SetAsArray(verticesCabin);
 			
-			var shapeCab:b2PolygonShape = new b2PolygonShape();
-			var verticesCab:Array = new Array();
-			verticesCab[0] = new b2Vec2(- 50 / _scale, 42 / _scale);
-			verticesCab[1] = new b2Vec2(- 50 / _scale, 7 / _scale);
-			verticesCab[2] = new b2Vec2(- 35 / _scale, - 35 / _scale);
-			verticesCab[3] = new b2Vec2(10 / _scale, - 35 / _scale);
-			verticesCab[4] = new b2Vec2(10 / _scale, - 2 / _scale);
-			verticesCab[5] = new b2Vec2(61 / _scale,  10 / _scale);
-			verticesCab[6] = new b2Vec2(61 / _scale, 42 / _scale);			
-            shapeCab.SetAsArray(verticesCab);
-					
 			var fixture:b2FixtureDef = new b2FixtureDef();
-			fixture.shape = shapeCab;
-			fixture.density = 30;
+			fixture.shape = shapeCabin;
+			fixture.density = 3;
 			fixture.friction = 1;
 			fixture.restitution = 0;
 		    fixture.filter.groupIndex = - 1;
-			
 			body.CreateFixture(fixture);
 			
+			var shapeEngine:b2PolygonShape = new b2PolygonShape();
+			var verticesEngine:Array = new Array();
+			verticesEngine.push(new b2Vec2(10 / _scale, 42 / _scale));	
+			verticesEngine.push(new b2Vec2(10 / _scale, - 2 / _scale));
+			verticesEngine.push(new b2Vec2(61 / _scale,  10 / _scale));
+			verticesEngine.push(new b2Vec2(61 / _scale, 42 / _scale));	
+			shapeEngine.SetAsArray(verticesEngine);	
+			
+			fixture.shape = shapeEngine;
+			body.CreateFixture(fixture);
+				
 			var shapePipe:b2PolygonShape = new b2PolygonShape();
 			var verticesPipe:Array = new Array();
-			verticesPipe[0] = new b2Vec2(18 / _scale, 0 / _scale);
-			verticesPipe[1] = new b2Vec2(18 / _scale, - 25 / _scale);
-			verticesPipe[2] = new b2Vec2(24 / _scale, - 25 / _scale);
-			verticesPipe[3] = new b2Vec2(24 / _scale, 1 / _scale);		
+			verticesPipe.push(new b2Vec2(18 / _scale, 0 / _scale));
+			verticesPipe.push(new b2Vec2(18 / _scale, - 25 / _scale));
+			verticesPipe.push(new b2Vec2(24 / _scale, - 25 / _scale));
+			verticesPipe.push(new b2Vec2(24 / _scale, 1 / _scale));		
             shapePipe.SetAsArray(verticesPipe);
 			
 			fixture.shape = shapePipe;
@@ -144,10 +152,10 @@ package game
 	
 			var shapeFork:b2PolygonShape = new b2PolygonShape();
 			var verticesFork:Array = new Array();
-			verticesFork[0] = new b2Vec2(- 61 / _scale, 51 / _scale);
-			verticesFork[1] = new b2Vec2(- 61 / _scale, - 51 / _scale);
-			verticesFork[2] = new b2Vec2(- 55 / _scale, - 51 / _scale);	
-			verticesFork[3] = new b2Vec2(- 55 / _scale, 51 / _scale);	
+			verticesFork.push(new b2Vec2(- 61 / _scale, 51 / _scale));
+			verticesFork.push(new b2Vec2(- 61 / _scale, - 51 / _scale));
+			verticesFork.push(new b2Vec2(- 55 / _scale, - 51 / _scale));	
+			verticesFork.push(new b2Vec2(- 55 / _scale, 51 / _scale));	
             shapeFork.SetAsArray(verticesFork);
 		
 			fixture.shape = shapeFork;	
@@ -175,15 +183,15 @@ package game
 			var shape:b2PolygonShape = new b2PolygonShape();
 			var vertices:Array = new Array();
 			vertices[0] = new b2Vec2( - 23 / _scale, 20 / _scale);
-			vertices[1] = new b2Vec2( - 23 / _scale, 17 / _scale);
-			vertices[2] = new b2Vec2(23 / _scale, 17 / _scale);
+			vertices[1] = new b2Vec2( - 23 / _scale, 18 / _scale);
+			vertices[2] = new b2Vec2(23 / _scale, 18 / _scale);
 			vertices[3] = new b2Vec2(23 / _scale, 20 / _scale);		
             shape.SetAsArray(vertices);
 			
 			var fixture:b2FixtureDef = new b2FixtureDef();
 			fixture.shape = shape;
 			fixture.density = 1;
-			fixture.friction = 1;
+			fixture.friction = 0.1;
 			fixture.restitution = 0;
 			fixture.filter.groupIndex = - 1;
 			
@@ -236,8 +244,11 @@ package game
 		
 		public function setSpeed(speed:Number):void
 		{
-			_leftWheelJoint.SetMotorSpeed(speed);
-			_rightWheelJoint.SetMotorSpeed(speed);
+			if (_leftWheelJoint.GetMotorSpeed() != speed || _rightWheelJoint.GetMotorSpeed() != speed)
+			{
+				_leftWheelJoint.SetMotorSpeed(speed);
+				_rightWheelJoint.SetMotorSpeed(speed);
+			}
 			// _leftWheel.ApplyTorque(speed);
 			// _rightWheel.ApplyTorque(speed);
 		}

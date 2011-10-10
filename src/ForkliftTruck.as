@@ -5,6 +5,8 @@ package
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
+	import level.LevelManager;
+	
 	public class ForkliftTruck extends Sprite
 	{
 
@@ -17,17 +19,19 @@ package
 			addEventListener(Event.REMOVED_FROM_STAGE, destroy, false, 0, true);
 		}
 		
-		private function create(e:Event) : void
+		private function create(e:Event = null) : void
 		{
 			stage.frameRate = _originalFrameRate;
-			
+
 			SWFProfiler.init(stage, this);
 			SWFProfiler.show();
-			
+						
+			var level = new LevelManager();
 			addChild(new Truck());
 			addEventListener(Event.ENTER_FRAME, update);
 			addEventListener(Event.ACTIVATE, activate); 
 			addEventListener(Event.DEACTIVATE, deactivate);
+
 		}
 		
 		private function destroy(e:Event) : void
@@ -49,7 +53,7 @@ package
 			
 		private function update(e:Event) : void
 		{
-			
+
 	    }
 		
 	}
