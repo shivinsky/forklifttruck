@@ -1,4 +1,4 @@
-package level 
+package game.level 
 {
 	
 	public class Level2 extends Level
