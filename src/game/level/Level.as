@@ -20,6 +20,8 @@ package game.level
 		protected var _factory : EntityFactory;
 		protected var _layers : LayerManager;
 		
+		protected var _truck : PhysicEntity;
+		
 		public function Level() 
 		{
 			_world = new b2World(Settings.gravity, true);	

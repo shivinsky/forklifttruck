@@ -10,6 +10,7 @@ package game.truck
 	import flash.ui.Keyboard;
 	
 	import game.entity.PhysicEntity;
+	import game.trigger.TriggerEvent;
 			
 	public class Truck extends PhysicEntity
 	{				
@@ -19,7 +20,7 @@ package game.truck
 		{					
 			super(position, new b2Vec2(100, 100), world);
 			
-			_truck = new TruckModel(position, false, world, _scale);
+			_truck = new TruckModel(position, true, world, _scale);
 			addChild(_truck);
 			
 			addEventListener(Event.ADDED_TO_STAGE, create, false, 0, true);
@@ -28,7 +29,7 @@ package game.truck
 		private function create(e : Event) : void
 		{									
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownListener);
-			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpListener);		
+			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpListener);	
 		}
 		
 		public override function update() : void

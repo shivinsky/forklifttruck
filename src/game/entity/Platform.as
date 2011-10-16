@@ -7,6 +7,9 @@ package game.entity
 	import flash.display.Sprite;
 	import flash.geom.Matrix;
 	
+	/**
+	 * Platfrom
+	 */
 	public class Platform extends PhysicEntity
 	{
 
@@ -24,6 +27,7 @@ package game.entity
 						
 			var sprite : Sprite = new Sprite();
 			sprite.graphics.beginBitmapFill(new DebugBitmap());
+			sprite.graphics.lineStyle(1, 0x000000);
 			sprite.graphics.drawRect(- _size.x / 2, - _size.y / 2, _size.x, _size.y);
 			sprite.graphics.endFill();
 			sprite.cacheAsBitmap = true;
