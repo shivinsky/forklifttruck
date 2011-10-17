@@ -17,8 +17,8 @@
 */
 
 package Box2D.Dynamics.Joints{
-	
-	
+    
+    
 import Box2D.Common.Math.*;
 import Box2D.Dynamics.*;
 
@@ -44,78 +44,78 @@ use namespace b2internal;
 
 public class b2RevoluteJointDef extends b2JointDef
 {
-	public function b2RevoluteJointDef()
-	{
-		type = b2Joint.e_revoluteJoint;
-		localAnchorA.Set(0.0, 0.0);
-		localAnchorB.Set(0.0, 0.0);
-		referenceAngle = 0.0;
-		lowerAngle = 0.0;
-		upperAngle = 0.0;
-		maxMotorTorque = 0.0;
-		motorSpeed = 0.0;
-		enableLimit = false;
-		enableMotor = false;
-	}
+    public function b2RevoluteJointDef()
+    {
+        type = b2Joint.e_revoluteJoint;
+        localAnchorA.Set(0.0, 0.0);
+        localAnchorB.Set(0.0, 0.0);
+        referenceAngle = 0.0;
+        lowerAngle = 0.0;
+        upperAngle = 0.0;
+        maxMotorTorque = 0.0;
+        motorSpeed = 0.0;
+        enableLimit = false;
+        enableMotor = false;
+    }
 
-	/**
-	* Initialize the bodies, anchors, and reference angle using the world
-	* anchor.
-	*/
-	public function Initialize(bA:b2Body, bB:b2Body, anchor:b2Vec2) : void{
-		bodyA = bA;
-		bodyB = bB;
-		localAnchorA = bodyA.GetLocalPoint(anchor);
-		localAnchorB = bodyB.GetLocalPoint(anchor);
-		referenceAngle = bodyB.GetAngle() - bodyA.GetAngle();
-	}
+    /**
+    * Initialize the bodies, anchors, and reference angle using the world
+    * anchor.
+    */
+    public function Initialize(bA:b2Body, bB:b2Body, anchor:b2Vec2) : void{
+        bodyA = bA;
+        bodyB = bB;
+        localAnchorA = bodyA.GetLocalPoint(anchor);
+        localAnchorB = bodyB.GetLocalPoint(anchor);
+        referenceAngle = bodyB.GetAngle() - bodyA.GetAngle();
+    }
 
-	/**
-	* The local anchor point relative to bodyA's origin.
-	*/
-	public var localAnchorA:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to bodyA's origin.
+    */
+    public var localAnchorA:b2Vec2 = new b2Vec2();
 
-	/**
-	* The local anchor point relative to bodyB's origin.
-	*/
-	public var localAnchorB:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to bodyB's origin.
+    */
+    public var localAnchorB:b2Vec2 = new b2Vec2();
 
-	/**
-	* The bodyB angle minus bodyA angle in the reference state (radians).
-	*/
-	public var referenceAngle:Number;
+    /**
+    * The bodyB angle minus bodyA angle in the reference state (radians).
+    */
+    public var referenceAngle:Number;
 
-	/**
-	* A flag to enable joint limits.
-	*/
-	public var enableLimit:Boolean;
+    /**
+    * A flag to enable joint limits.
+    */
+    public var enableLimit:Boolean;
 
-	/**
-	* The lower angle for the joint limit (radians).
-	*/
-	public var lowerAngle:Number;
+    /**
+    * The lower angle for the joint limit (radians).
+    */
+    public var lowerAngle:Number;
 
-	/**
-	* The upper angle for the joint limit (radians).
-	*/
-	public var upperAngle:Number;
+    /**
+    * The upper angle for the joint limit (radians).
+    */
+    public var upperAngle:Number;
 
-	/**
-	* A flag to enable the joint motor.
-	*/
-	public var enableMotor:Boolean;
+    /**
+    * A flag to enable the joint motor.
+    */
+    public var enableMotor:Boolean;
 
-	/**
-	* The desired motor speed. Usually in radians per second.
-	*/
-	public var motorSpeed:Number;
+    /**
+    * The desired motor speed. Usually in radians per second.
+    */
+    public var motorSpeed:Number;
 
-	/**
-	* The maximum motor torque used to achieve the desired motor speed.
-	* Usually in N-m.
-	*/
-	public var maxMotorTorque:Number;
-	
+    /**
+    * The maximum motor torque used to achieve the desired motor speed.
+    * Usually in N-m.
+    */
+    public var maxMotorTorque:Number;
+    
 };
 
 }

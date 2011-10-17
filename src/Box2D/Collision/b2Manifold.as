@@ -17,7 +17,7 @@
 */
 
 package Box2D.Collision{
-	
+    
 import Box2D.Collision.*;
 import Box2D.Common.Math.*;
 import Box2D.Common.*;
@@ -45,52 +45,52 @@ use namespace b2internal;
  */
 public class b2Manifold
 {
-	public function b2Manifold(){
-		m_points = new Vector.<b2ManifoldPoint>(b2Settings.b2_maxManifoldPoints);
-		for (var i:int = 0; i < b2Settings.b2_maxManifoldPoints; i++){
-			m_points[i] = new b2ManifoldPoint();
-		}
-		m_localPlaneNormal = new b2Vec2();
-		m_localPoint = new b2Vec2();
-	}
-	public function Reset() : void{
-		for (var i:int = 0; i < b2Settings.b2_maxManifoldPoints; i++){
-			(m_points[i] as b2ManifoldPoint).Reset();
-		}
-		m_localPlaneNormal.SetZero();
-		m_localPoint.SetZero();
-		m_type = 0;
-		m_pointCount = 0;
-	}
-	public function Set(m:b2Manifold) : void{
-		m_pointCount = m.m_pointCount;
-		for (var i:int = 0; i < b2Settings.b2_maxManifoldPoints; i++){
-			(m_points[i] as b2ManifoldPoint).Set(m.m_points[i]);
-		}
-		m_localPlaneNormal.SetV(m.m_localPlaneNormal);
-		m_localPoint.SetV(m.m_localPoint);
-		m_type = m.m_type;
-	}
-	public function Copy():b2Manifold
-	{
-		var copy:b2Manifold = new b2Manifold();
-		copy.Set(this);
-		return copy;
-	}
-	/** The points of contact */	
-	public var m_points:Vector.<b2ManifoldPoint>;	
-	/** Not used for Type e_points*/	
-	public var m_localPlaneNormal:b2Vec2;	
-	/** Usage depends on manifold type */	
-	public var m_localPoint:b2Vec2;	
-	public var m_type:int;
-	/** The number of manifold points */	
-	public var m_pointCount:int = 0;
-	
-	//enum Type
-	public static const e_circles:int = 0x0001;
-	public static const e_faceA:int = 0x0002;
-	public static const e_faceB:int = 0x0004;
+    public function b2Manifold(){
+        m_points = new Vector.<b2ManifoldPoint>(b2Settings.b2_maxManifoldPoints);
+        for (var i:int = 0; i < b2Settings.b2_maxManifoldPoints; i++){
+            m_points[i] = new b2ManifoldPoint();
+        }
+        m_localPlaneNormal = new b2Vec2();
+        m_localPoint = new b2Vec2();
+    }
+    public function Reset() : void{
+        for (var i:int = 0; i < b2Settings.b2_maxManifoldPoints; i++){
+            (m_points[i] as b2ManifoldPoint).Reset();
+        }
+        m_localPlaneNormal.SetZero();
+        m_localPoint.SetZero();
+        m_type = 0;
+        m_pointCount = 0;
+    }
+    public function Set(m:b2Manifold) : void{
+        m_pointCount = m.m_pointCount;
+        for (var i:int = 0; i < b2Settings.b2_maxManifoldPoints; i++){
+            (m_points[i] as b2ManifoldPoint).Set(m.m_points[i]);
+        }
+        m_localPlaneNormal.SetV(m.m_localPlaneNormal);
+        m_localPoint.SetV(m.m_localPoint);
+        m_type = m.m_type;
+    }
+    public function Copy():b2Manifold
+    {
+        var copy:b2Manifold = new b2Manifold();
+        copy.Set(this);
+        return copy;
+    }
+    /** The points of contact */    
+    public var m_points:Vector.<b2ManifoldPoint>;    
+    /** Not used for Type e_points*/    
+    public var m_localPlaneNormal:b2Vec2;    
+    /** Usage depends on manifold type */    
+    public var m_localPoint:b2Vec2;    
+    public var m_type:int;
+    /** The number of manifold points */    
+    public var m_pointCount:int = 0;
+    
+    //enum Type
+    public static const e_circles:int = 0x0001;
+    public static const e_faceA:int = 0x0002;
+    public static const e_faceB:int = 0x0004;
 };
 
 

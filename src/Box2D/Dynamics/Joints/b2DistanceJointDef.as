@@ -18,7 +18,7 @@
 
 package Box2D.Dynamics.Joints{
 
-	
+    
 import Box2D.Common.Math.*;
 import Box2D.Dynamics.Joints.*;
 import Box2D.Dynamics.*;
@@ -38,58 +38,58 @@ use namespace b2internal;
 */
 public class b2DistanceJointDef extends b2JointDef
 {
-	public function b2DistanceJointDef()
-	{
-		type = b2Joint.e_distanceJoint;
-		//localAnchor1.Set(0.0, 0.0);
-		//localAnchor2.Set(0.0, 0.0);
-		length = 1.0;
-		frequencyHz = 0.0;
-		dampingRatio = 0.0;
-	}
-	
-	/**
-	* Initialize the bodies, anchors, and length using the world
-	* anchors.
-	*/
-	public function Initialize(bA:b2Body, bB:b2Body,
-								anchorA:b2Vec2, anchorB:b2Vec2) : void
-	{
-		bodyA = bA;
-		bodyB = bB;
-		localAnchorA.SetV( bodyA.GetLocalPoint(anchorA));
-		localAnchorB.SetV( bodyB.GetLocalPoint(anchorB));
-		var dX:Number = anchorB.x - anchorA.x;
-		var dY:Number = anchorB.y - anchorA.y;
-		length = Math.sqrt(dX*dX + dY*dY);
-		frequencyHz = 0.0;
-		dampingRatio = 0.0;
-	}
+    public function b2DistanceJointDef()
+    {
+        type = b2Joint.e_distanceJoint;
+        //localAnchor1.Set(0.0, 0.0);
+        //localAnchor2.Set(0.0, 0.0);
+        length = 1.0;
+        frequencyHz = 0.0;
+        dampingRatio = 0.0;
+    }
+    
+    /**
+    * Initialize the bodies, anchors, and length using the world
+    * anchors.
+    */
+    public function Initialize(bA:b2Body, bB:b2Body,
+                                anchorA:b2Vec2, anchorB:b2Vec2) : void
+    {
+        bodyA = bA;
+        bodyB = bB;
+        localAnchorA.SetV( bodyA.GetLocalPoint(anchorA));
+        localAnchorB.SetV( bodyB.GetLocalPoint(anchorB));
+        var dX:Number = anchorB.x - anchorA.x;
+        var dY:Number = anchorB.y - anchorA.y;
+        length = Math.sqrt(dX*dX + dY*dY);
+        frequencyHz = 0.0;
+        dampingRatio = 0.0;
+    }
 
-	/**
-	* The local anchor point relative to body1's origin.
-	*/
-	public var localAnchorA:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to body1's origin.
+    */
+    public var localAnchorA:b2Vec2 = new b2Vec2();
 
-	/**
-	* The local anchor point relative to body2's origin.
-	*/
-	public var localAnchorB:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to body2's origin.
+    */
+    public var localAnchorB:b2Vec2 = new b2Vec2();
 
-	/**
-	* The natural length between the anchor points.
-	*/
-	public var length:Number;
+    /**
+    * The natural length between the anchor points.
+    */
+    public var length:Number;
 
-	/**
-	* The mass-spring-damper frequency in Hertz.
-	*/
-	public var frequencyHz:Number;
+    /**
+    * The mass-spring-damper frequency in Hertz.
+    */
+    public var frequencyHz:Number;
 
-	/**
-	* The damping ratio. 0 = no damping, 1 = critical damping.
-	*/
-	public var dampingRatio:Number;
+    /**
+    * The damping ratio. 0 = no damping, 1 = critical damping.
+    */
+    public var dampingRatio:Number;
 };
 
 }

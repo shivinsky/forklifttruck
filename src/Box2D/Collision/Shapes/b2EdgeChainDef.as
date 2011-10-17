@@ -33,22 +33,22 @@ use namespace b2internal;
 */
 public class b2EdgeChainDef// extends b2ShapeDef
 {
-	public function b2EdgeChainDef()
-	{
-		//type = b2Shape.e_edgeShape;
-		vertexCount = 0;
-		isALoop = true;
-		vertices = [];
-	}
+    public function b2EdgeChainDef()
+    {
+        //type = b2Shape.e_edgeShape;
+        vertexCount = 0;
+        isALoop = true;
+        vertices = [];
+    }
 
-	/** The vertices in local coordinates. */
-	public var vertices: Array;
-	
-	/** The number of vertices in the chain. */
-	public var vertexCount: int;
-	
-	/** Whether to create an extra edge between the first and last vertices. */
-	public var isALoop: Boolean;
+    /** The vertices in local coordinates. */
+    public var vertices: Array;
+    
+    /** The number of vertices in the chain. */
+    public var vertexCount: int;
+    
+    /** Whether to create an extra edge between the first and last vertices. */
+    public var isALoop: Boolean;
 };
 
 }

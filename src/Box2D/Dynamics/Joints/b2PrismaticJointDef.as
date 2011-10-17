@@ -17,14 +17,14 @@
 */
 
 package Box2D.Dynamics.Joints{
-	
+    
 
 import Box2D.Common.Math.*;
 import Box2D.Dynamics.*;
 
 import Box2D.Common.b2internal;
 use namespace b2internal;
-	
+    
 
 /**
 * Prismatic joint definition. This requires defining a line of
@@ -37,80 +37,80 @@ use namespace b2internal;
 */
 public class b2PrismaticJointDef extends b2JointDef
 {
-	public function b2PrismaticJointDef()
-	{
-		type = b2Joint.e_prismaticJoint;
-		//localAnchor1.SetZero();
-		//localAnchor2.SetZero();
-		localAxisA.Set(1.0, 0.0);
-		referenceAngle = 0.0;
-		enableLimit = false;
-		lowerTranslation = 0.0;
-		upperTranslation = 0.0;
-		enableMotor = false;
-		maxMotorForce = 0.0;
-		motorSpeed = 0.0;
-	}
-	
-	public function Initialize(bA:b2Body, bB:b2Body, anchor:b2Vec2, axis:b2Vec2) : void
-	{
-		bodyA = bA;
-		bodyB = bB;
-		localAnchorA = bodyA.GetLocalPoint(anchor);
-		localAnchorB = bodyB.GetLocalPoint(anchor);
-		localAxisA = bodyA.GetLocalVector(axis);
-		referenceAngle = bodyB.GetAngle() - bodyA.GetAngle();
-	}
+    public function b2PrismaticJointDef()
+    {
+        type = b2Joint.e_prismaticJoint;
+        //localAnchor1.SetZero();
+        //localAnchor2.SetZero();
+        localAxisA.Set(1.0, 0.0);
+        referenceAngle = 0.0;
+        enableLimit = false;
+        lowerTranslation = 0.0;
+        upperTranslation = 0.0;
+        enableMotor = false;
+        maxMotorForce = 0.0;
+        motorSpeed = 0.0;
+    }
+    
+    public function Initialize(bA:b2Body, bB:b2Body, anchor:b2Vec2, axis:b2Vec2) : void
+    {
+        bodyA = bA;
+        bodyB = bB;
+        localAnchorA = bodyA.GetLocalPoint(anchor);
+        localAnchorB = bodyB.GetLocalPoint(anchor);
+        localAxisA = bodyA.GetLocalVector(axis);
+        referenceAngle = bodyB.GetAngle() - bodyA.GetAngle();
+    }
 
-	/**
-	* The local anchor point relative to bodyA's origin.
-	*/
-	public var localAnchorA:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to bodyA's origin.
+    */
+    public var localAnchorA:b2Vec2 = new b2Vec2();
 
-	/**
-	* The local anchor point relative to bodyB's origin.
-	*/
-	public var localAnchorB:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to bodyB's origin.
+    */
+    public var localAnchorB:b2Vec2 = new b2Vec2();
 
-	/**
-	* The local translation axis in body1.
-	*/
-	public var localAxisA:b2Vec2 = new b2Vec2();
+    /**
+    * The local translation axis in body1.
+    */
+    public var localAxisA:b2Vec2 = new b2Vec2();
 
-	/**
-	* The constrained angle between the bodies: bodyB_angle - bodyA_angle.
-	*/
-	public var referenceAngle:Number;
+    /**
+    * The constrained angle between the bodies: bodyB_angle - bodyA_angle.
+    */
+    public var referenceAngle:Number;
 
-	/**
-	* Enable/disable the joint limit.
-	*/
-	public var enableLimit:Boolean;
+    /**
+    * Enable/disable the joint limit.
+    */
+    public var enableLimit:Boolean;
 
-	/**
-	* The lower translation limit, usually in meters.
-	*/
-	public var lowerTranslation:Number;
+    /**
+    * The lower translation limit, usually in meters.
+    */
+    public var lowerTranslation:Number;
 
-	/**
-	* The upper translation limit, usually in meters.
-	*/
-	public var upperTranslation:Number;
+    /**
+    * The upper translation limit, usually in meters.
+    */
+    public var upperTranslation:Number;
 
-	/**
-	* Enable/disable the joint motor.
-	*/
-	public var enableMotor:Boolean;
+    /**
+    * Enable/disable the joint motor.
+    */
+    public var enableMotor:Boolean;
 
-	/**
-	* The maximum motor torque, usually in N-m.
-	*/
-	public var maxMotorForce:Number;
+    /**
+    * The maximum motor torque, usually in N-m.
+    */
+    public var maxMotorForce:Number;
 
-	/**
-	* The desired motor speed in radians per second.
-	*/
-	public var motorSpeed:Number;
+    /**
+    * The desired motor speed in radians per second.
+    */
+    public var motorSpeed:Number;
 };
 
 }

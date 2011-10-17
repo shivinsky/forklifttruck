@@ -28,20 +28,20 @@ import Box2D.Dynamics.*;
  * Applies a force every frame
  */
 public class b2ConstantForceController extends b2Controller
-{	
-	/**
-	 * The force to apply
-	 */
-	public var F:b2Vec2 = new b2Vec2(0,0);
-	
-	public override function Step(step:b2TimeStep):void{
-		for(var i:b2ControllerEdge=m_bodyList;i;i=i.nextBody){
-			var body:b2Body = i.body;
-			if(!body.IsAwake())
-				continue;
-			body.ApplyForce(F,body.GetWorldCenter());
-		}
-	}
+{    
+    /**
+     * The force to apply
+     */
+    public var F:b2Vec2 = new b2Vec2(0,0);
+    
+    public override function Step(step:b2TimeStep):void{
+        for(var i:b2ControllerEdge=m_bodyList;i;i=i.nextBody){
+            var body:b2Body = i.body;
+            if(!body.IsAwake())
+                continue;
+            body.ApplyForce(F,body.GetWorldCenter());
+        }
+    }
 }
 
 }

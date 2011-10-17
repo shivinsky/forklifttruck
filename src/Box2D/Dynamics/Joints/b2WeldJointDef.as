@@ -18,7 +18,7 @@
 
 package Box2D.Dynamics.Joints{
 
-	
+    
 import Box2D.Common.Math.*;
 import Box2D.Dynamics.Joints.*;
 import Box2D.Dynamics.*;
@@ -35,40 +35,40 @@ use namespace b2internal;
  */
 public class b2WeldJointDef extends b2JointDef
 {
-	public function b2WeldJointDef()
-	{
-		type = b2Joint.e_weldJoint;
-		referenceAngle = 0.0;
-	}
-	
-	/**
-	 * Initialize the bodies, anchors, axis, and reference angle using the world
-	 * anchor and world axis.
-	 */
-	public function Initialize(bA:b2Body, bB:b2Body,
-								anchor:b2Vec2) : void
-	{
-		bodyA = bA;
-		bodyB = bB;
-		localAnchorA.SetV( bodyA.GetLocalPoint(anchor));
-		localAnchorB.SetV( bodyB.GetLocalPoint(anchor));
-		referenceAngle = bodyB.GetAngle() - bodyA.GetAngle();
-	}
+    public function b2WeldJointDef()
+    {
+        type = b2Joint.e_weldJoint;
+        referenceAngle = 0.0;
+    }
+    
+    /**
+     * Initialize the bodies, anchors, axis, and reference angle using the world
+     * anchor and world axis.
+     */
+    public function Initialize(bA:b2Body, bB:b2Body,
+                                anchor:b2Vec2) : void
+    {
+        bodyA = bA;
+        bodyB = bB;
+        localAnchorA.SetV( bodyA.GetLocalPoint(anchor));
+        localAnchorB.SetV( bodyB.GetLocalPoint(anchor));
+        referenceAngle = bodyB.GetAngle() - bodyA.GetAngle();
+    }
 
-	/**
-	* The local anchor point relative to bodyA's origin.
-	*/
-	public var localAnchorA:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to bodyA's origin.
+    */
+    public var localAnchorA:b2Vec2 = new b2Vec2();
 
-	/**
-	* The local anchor point relative to bodyB's origin.
-	*/
-	public var localAnchorB:b2Vec2 = new b2Vec2();
+    /**
+    * The local anchor point relative to bodyB's origin.
+    */
+    public var localAnchorB:b2Vec2 = new b2Vec2();
 
-	/**
-	 * The body2 angle minus body1 angle in the reference state (radians).
-	 */
-	public var referenceAngle:Number;
+    /**
+     * The body2 angle minus body1 angle in the reference state (radians).
+     */
+    public var referenceAngle:Number;
 };
 
 }

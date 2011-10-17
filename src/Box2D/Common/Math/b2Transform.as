@@ -18,65 +18,65 @@
 
 package Box2D.Common.Math{
 
-	
+    
 import Box2D.Common.*;
-	
-	
+    
+    
 /**
 * A transform contains translation and rotation. It is used to represent
 * the position and orientation of rigid frames.
 */
 public class b2Transform
 {
-	/**
-	* The default constructor does nothing (for performance).
-	*/
-	public function b2Transform(pos:b2Vec2=null, r:b2Mat22=null) : void 
-	{
-		if (pos){
-			position.SetV(pos);
-			R.SetM(r);
+    /**
+    * The default constructor does nothing (for performance).
+    */
+    public function b2Transform(pos:b2Vec2=null, r:b2Mat22=null) : void 
+    {
+        if (pos){
+            position.SetV(pos);
+            R.SetM(r);
 
-		}
-	}
+        }
+    }
 
-	/**
-	* Initialize using a position vector and a rotation matrix.
-	*/
-	public function Initialize(pos:b2Vec2, r:b2Mat22) : void 
-	{
-		position.SetV(pos);
-		R.SetM(r);
-	}
+    /**
+    * Initialize using a position vector and a rotation matrix.
+    */
+    public function Initialize(pos:b2Vec2, r:b2Mat22) : void 
+    {
+        position.SetV(pos);
+        R.SetM(r);
+    }
 
-	/**
-	* Set this to the identity transform.
-	*/
-	public function SetIdentity() : void
-	{
-		position.SetZero();
-		R.SetIdentity();
-	}
+    /**
+    * Set this to the identity transform.
+    */
+    public function SetIdentity() : void
+    {
+        position.SetZero();
+        R.SetIdentity();
+    }
 
-	public function Set(x:b2Transform) : void{
+    public function Set(x:b2Transform) : void{
 
-		position.SetV(x.position);
+        position.SetV(x.position);
 
-		R.SetM(x.R);
+        R.SetM(x.R);
 
-	}
-	
-	/** 
-	 * Calculate the angle that the rotation matrix represents.
-	 */
-	public function GetAngle():Number
-	{
-		return Math.atan2(R.col1.y, R.col1.x);
-	}
-	 
+    }
+    
+    /** 
+     * Calculate the angle that the rotation matrix represents.
+     */
+    public function GetAngle():Number
+    {
+        return Math.atan2(R.col1.y, R.col1.x);
+    }
+     
 
-	public var position:b2Vec2 = new b2Vec2;
-	public var R:b2Mat22 = new b2Mat22();
+    public var position:b2Vec2 = new b2Vec2;
+    public var R:b2Mat22 = new b2Mat22();
 };
 
 }

@@ -28,25 +28,25 @@ import Box2D.Dynamics.*;
  * Applies an acceleration every frame, like gravity
  */
 public class b2ConstantAccelController extends b2Controller
-{	
-	/**
-	 * The acceleration to apply
-	 */
-	public var A:b2Vec2 = new b2Vec2(0,0);
-	
-	public override function Step(step:b2TimeStep):void{
-		var smallA:b2Vec2 = new b2Vec2(A.x*step.dt,A.y*step.dt);
-		for(var i:b2ControllerEdge=m_bodyList;i;i=i.nextBody){
-			var body:b2Body = i.body;
-			if(!body.IsAwake())
-				continue;
-			//Am being lazy here
-			body.SetLinearVelocity(new b2Vec2(
-				body.GetLinearVelocity().x +smallA.x,
-				body.GetLinearVelocity().y +smallA.y
-				));
-		}
-	}
+{    
+    /**
+     * The acceleration to apply
+     */
+    public var A:b2Vec2 = new b2Vec2(0,0);
+    
+    public override function Step(step:b2TimeStep):void{
+        var smallA:b2Vec2 = new b2Vec2(A.x*step.dt,A.y*step.dt);
+        for(var i:b2ControllerEdge=m_bodyList;i;i=i.nextBody){
+            var body:b2Body = i.body;
+            if(!body.IsAwake())
+                continue;
+            //Am being lazy here
+            body.SetLinearVelocity(new b2Vec2(
+                body.GetLinearVelocity().x +smallA.x,
+                body.GetLinearVelocity().y +smallA.y
+                ));
+        }
+    }
 }
 
 }

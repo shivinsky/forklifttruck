@@ -1,14 +1,14 @@
 package game.entity 
 {
 
-	public class Bridge 
-	{
-		
-		public function Bridge() 
-		{
-			
-		}
-		
-	}
+    public class Bridge 
+    {
+        
+        public function Bridge() 
+        {
+            
+        }
+        
+    }
 
 }

@@ -17,7 +17,7 @@
 */
 
 package Box2D.Collision{
-	
+    
 import Box2D.Collision.*;
 import Box2D.Common.Math.*;
 
@@ -38,26 +38,26 @@ use namespace b2internal;
  */
 public class b2ManifoldPoint
 {
-	public function b2ManifoldPoint()
-	{
-		Reset();
-	}
-	public function Reset() : void{
-		m_localPoint.SetZero();
-		m_normalImpulse = 0.0;
-		m_tangentImpulse = 0.0;
-		m_id.key = 0;
-	}
-	public function Set(m:b2ManifoldPoint) : void{
-		m_localPoint.SetV(m.m_localPoint);
-		m_normalImpulse = m.m_normalImpulse;
-		m_tangentImpulse = m.m_tangentImpulse;
-		m_id.Set(m.m_id);
-	}
-	public var m_localPoint:b2Vec2 = new b2Vec2();
-	public var m_normalImpulse:Number;
-	public var m_tangentImpulse:Number;
-	public var m_id:b2ContactID = new b2ContactID();
+    public function b2ManifoldPoint()
+    {
+        Reset();
+    }
+    public function Reset() : void{
+        m_localPoint.SetZero();
+        m_normalImpulse = 0.0;
+        m_tangentImpulse = 0.0;
+        m_id.key = 0;
+    }
+    public function Set(m:b2ManifoldPoint) : void{
+        m_localPoint.SetV(m.m_localPoint);
+        m_normalImpulse = m.m_normalImpulse;
+        m_tangentImpulse = m.m_tangentImpulse;
+        m_id.Set(m.m_id);
+    }
+    public var m_localPoint:b2Vec2 = new b2Vec2();
+    public var m_normalImpulse:Number;
+    public var m_tangentImpulse:Number;
+    public var m_id:b2ContactID = new b2ContactID();
 };
 
 

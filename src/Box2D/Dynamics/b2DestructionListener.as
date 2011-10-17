@@ -38,18 +38,18 @@ use namespace b2internal;
 public class b2DestructionListener
 {
 
-	/**
-	* Called when any joint is about to be destroyed due
-	* to the destruction of one of its attached bodies.
-	*/
-	public virtual function SayGoodbyeJoint(joint:b2Joint) : void{};
+    /**
+    * Called when any joint is about to be destroyed due
+    * to the destruction of one of its attached bodies.
+    */
+    public virtual function SayGoodbyeJoint(joint:b2Joint) : void{};
 
-	/**
-	* Called when any fixture is about to be destroyed due
-	* to the destruction of its parent body.
-	*/
-	public virtual function SayGoodbyeFixture(fixture:b2Fixture) : void{};
-	
+    /**
+    * Called when any fixture is about to be destroyed due
+    * to the destruction of its parent body.
+    */
+    public virtual function SayGoodbyeFixture(fixture:b2Fixture) : void{};
+    
 };
 
 }
