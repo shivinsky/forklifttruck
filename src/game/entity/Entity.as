@@ -10,7 +10,7 @@ package game.entity
         protected var _position : b2Vec2;
         protected var _size : b2Vec2;
         
-        public function Entity(position:b2Vec2, size:b2Vec2) 
+        public function Entity(position : b2Vec2, size : b2Vec2) 
         {
             _position = position;
             _size = size;

@@ -25,7 +25,7 @@ package game.entity
             
             var bodyDef : b2BodyDef = new b2BodyDef();
             bodyDef.type = b2Body.b2_dynamicBody;
-            bodyDef.userData = sprite;
+            bodyDef.userData = this;
             bodyDef.position.Set(position.x + size.x / 2, position.y + size.y / 2);
             bodyDef.bullet = true;
                         

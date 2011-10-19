@@ -17,13 +17,18 @@ package game.truck
      */
     public class Truck extends PhysicEntity
     {                
+		private var _truckRight : TruckModel;
+		private var _truckLeft : TruckModel;
         private var _truck : TruckModel;
         
         public function Truck(position : b2Vec2, world : b2World) 
         {                    
-            super(position, new b2Vec2(100, 100), world);
+            super(position, new b2Vec2(100, 10), world);
             
-            _truck = new TruckModel(position, true, world, _scale);
+            _truckRight = new TruckModel(position, true, world, _scale);
+			_truckLeft = new TruckModel(position, false, world, _scale);
+			_truck = _truckLeft;
+			_truck.setActive(true);
             addChild(_truck);
             
             addEventListener(Event.ADDED_TO_STAGE, create, false, 0, true);
@@ -43,13 +48,21 @@ package game.truck
         private function keyDownListener(e : KeyboardEvent) : void
         {
             if (e.keyCode == Keyboard.DOWN)
+			{
                 _truck.setForkSpeed(- 2);
+			}
             else if (e.keyCode == Keyboard.UP)
+			{
                 _truck.setForkSpeed(2);
+			}
             else if (e.keyCode == Keyboard.LEFT)
+			{
                 _truck.setSpeed(4);
+			}
             else if (e.keyCode == Keyboard.RIGHT)
+			{
                 _truck.setSpeed(- 4);    
+			}
         }
         
         private function keyUpListener(e : KeyboardEvent) : void
@@ -59,7 +72,18 @@ package game.truck
             else if (e.keyCode == Keyboard.LEFT || e.keyCode == Keyboard.RIGHT)
                 _truck.setSpeed(0);
             else if (e.keyCode == Keyboard.SPACE)
-                _truck.flip();            
+			{  
+				removeChild(_truck);
+				
+				var temp : TruckModel = _truck;	
+				_truck = _truck == _truckRight ? _truckLeft : _truckRight;    
+				_truck.setTransform(temp);
+				
+				temp.setActive(false);
+				_truck.setActive(true);
+
+				addChild(_truck);
+			}
         }
 
     }

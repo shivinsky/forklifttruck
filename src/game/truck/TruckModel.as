@@ -5,6 +5,7 @@ package game.truck
     import Box2D.Collision.Shapes.*;
     import Box2D.Common.Math.*;
     import Box2D.Common.b2Settings;
+	import Box2D.Dynamics.Contacts.*;
     import Box2D.Dynamics.Joints.*;
     
     import flash.display.Sprite;
@@ -26,6 +27,7 @@ package game.truck
         private var _rightWheelSprite : Sprite;
                 
         private var _fork:b2Body;
+		private var _forkOffset:int;
         private var _forkJoint:b2PrismaticJoint;
         
         private var _flip:Boolean;
@@ -45,12 +47,12 @@ package game.truck
             _rightWheel = createWheel(new b2Vec2(position.x + 95, position.y + 89), 24);
             
             // FIX THIS SHIT
-            var forkX:Number = - 46;
+            _forkOffset = - 46;
             if (_flip)
             {
-                forkX = + 123;
+                _forkOffset = + 123;
             }
-            _fork = createFork(new b2Vec2(position.x + forkX, position.y), new b2Vec2(46, 41));
+            _fork = createFork(new b2Vec2(position.x + _forkOffset, position.y), new b2Vec2(46, 41));
                 
             var leftRevoluteJointDef:b2RevoluteJointDef = new  b2RevoluteJointDef();
             leftRevoluteJointDef.Initialize(_leftWheel, _body, _leftWheel.GetWorldCenter());
@@ -70,7 +72,7 @@ package game.truck
             forkPrismaticJointDef.lowerTranslation = -2.3;
             forkPrismaticJointDef.upperTranslation = 0;
             forkPrismaticJointDef.enableLimit = true;
-            forkPrismaticJointDef.maxMotorForce = 550;
+            forkPrismaticJointDef.maxMotorForce = 500;
             forkPrismaticJointDef.motorSpeed = 0;
             forkPrismaticJointDef.enableMotor = true;
             _forkJoint = _world.CreateJoint(forkPrismaticJointDef) as b2PrismaticJoint;
@@ -91,6 +93,7 @@ package game.truck
             
             var bodyDef:b2BodyDef = new b2BodyDef();    
             bodyDef.type = b2Body.b2_dynamicBody;
+			bodyDef.active = false;
             bodyDef.position.Set(pos.x, pos.y);
             bodyDef.userData = new WheelSprite();
             bodyDef.userData.cacheAsBitmap = true;
@@ -128,6 +131,7 @@ package game.truck
             bodyDef.type = b2Body.b2_dynamicBody;
             bodyDef.position.Set(pos.x + size.x / 2, pos.y + size.y / 2);
             bodyDef.userData = sprite;
+			bodyDef.active = false;
             
             var body:b2Body = _world.CreateBody(bodyDef);
                         
@@ -209,6 +213,7 @@ package game.truck
             var bodyDef:b2BodyDef = new b2BodyDef();    
             bodyDef.type = b2Body.b2_dynamicBody;
             bodyDef.position.Set(pos.x + size.x / 2, pos.y + size.y / 2);
+			bodyDef.active = false;
             bodyDef.userData = new ForkSprite();
             bodyDef.userData.cacheAsBitmap = true;
             bodyDef.userData.width = sizeInPixels.x;
@@ -260,12 +265,51 @@ package game.truck
                 _forkJoint.SetMotorSpeed(speed);
             }
         }
-        
-        public function flip() : void
-        {
-            
-        }
-        
+		
+		public function setTransform(truck : TruckModel) : void
+		{
+			_body.SetTransform(truck._body.GetTransform());
+			_leftWheel.SetTransform(truck._leftWheel.GetTransform());
+			_rightWheel.SetTransform(truck._rightWheel.GetTransform());
+			
+			// Set fork position
+			var forkPos : b2Vec2 = _body.GetPosition();
+			forkPos.x += _forkOffset / _scale;
+			forkPos.y = truck._fork.GetPosition().y - 0.1;
+			_fork.SetPosition(forkPos);
+			
+			// Set boxes position
+			var boxPos : b2Vec2 = _fork.GetPosition();
+		    boxPos.x -= 1;
+			
+			var contactList : b2ContactEdge = truck._fork.GetContactList();
+			var contact : b2Contact;
+			while (contactList)
+			{
+				contact = contactList.contact;
+				if (contact.GetManifold().m_pointCount > 0)
+				{
+					var box : b2Body = contact.GetFixtureB().GetBody();
+					box.SetPosition(boxPos);
+				}
+				contactList = contactList.next;
+			}
+		}
+		
+		public function setActive(active : Boolean) : void
+		{
+			_leftWheelJoint.SetMotorSpeed(0);
+			_rightWheelJoint.SetMotorSpeed(0);	
+			_fork.SetLinearVelocity(new b2Vec2(0, 0));
+			_body.SetLinearVelocity(new b2Vec2(0, 0));
+			_leftWheel.SetLinearVelocity(new b2Vec2(0, 0));
+			_rightWheel.SetLinearVelocity(new b2Vec2(0, 0));
+			_body.SetActive(active);
+			_fork.SetActive(active);
+			_leftWheel.SetActive(active);
+			_rightWheel.SetActive(active);
+		}
+                
         public function update() : void
         {
         }
