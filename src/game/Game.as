@@ -1,10 +1,10 @@
 package game 
 {
     import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.ui.Keyboard;
+    import flash.events.KeyboardEvent;
+    import flash.ui.Keyboard;
     import flash.display.Sprite;
-	
+ 
     import game.level.Level;
     import game.level.LevelManager;
     
@@ -23,10 +23,10 @@ package game
             addEventListener(Event.ADDED_TO_STAGE, create, false, 0, true);
             addEventListener(Event.REMOVED_FROM_STAGE, destroy, false, 0, true);
         }
-		        
+          
         private function create(event : Event = null)
         {
-			removeEventListener(Event.ADDED_TO_STAGE, create);
+            removeEventListener(Event.ADDED_TO_STAGE, create);
             _levelManager = new LevelManager();
             _currentLevel = _levelManager.getLevel(0);
             addChild(_currentLevel);    
@@ -34,17 +34,17 @@ package game
             _currentLevel.create();
 
             addEventListener(Event.ENTER_FRAME, update);
-			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpListener); 
+            stage.addEventListener(KeyboardEvent.KEY_UP, keyUpListener); 
         }
-		
-		private function keyUpListener(e : KeyboardEvent) : void
-		{
-			// Ctrl + D
-			if (e.keyCode == 68 && e.ctrlKey)
-			{
-				_currentLevel.setDebug(!_currentLevel.isDebug());		
-			}
-		}
+  
+        private function keyUpListener(e : KeyboardEvent) : void
+        {
+            // Ctrl + D
+            if (e.keyCode == 68 && e.ctrlKey)
+            {
+                _currentLevel.setDebug(!_currentLevel.isDebug());  
+            }
+        }
         
         private function destroy(event:Event)
         {

@@ -17,9 +17,9 @@ package game.level
     {        
         private var _scale : uint;
         private var _iterations : uint;
-		private var _debug : Boolean;
+        private var _debug : Boolean;
         private var _debugDraw : b2DebugDraw;
-		
+  
         protected var _world : b2World;
         protected var _factory : EntityFactory;
         protected var _layers : LayerManager;
@@ -34,8 +34,8 @@ package game.level
             _scale = Settings.scale;
             _iterations = Settings.iterations;
             
-			_debug = false;
-			_debugDraw = new b2DebugDraw();
+            _debug = false;
+            _debugDraw = new b2DebugDraw();
             _debugDraw.SetSprite(new Sprite());
             _debugDraw.SetFillAlpha(0.5);
             _debugDraw.SetLineThickness(2.0);
@@ -47,21 +47,21 @@ package game.level
         {
             if (value)
             {
-				addChild(_debugDraw.GetSprite());
-                _world.SetDebugDraw(_debugDraw);		
+                addChild(_debugDraw.GetSprite());
+                _world.SetDebugDraw(_debugDraw);  
             }
             else
-            {			
-				removeChild(_debugDraw.GetSprite());
+            {   
+                removeChild(_debugDraw.GetSprite());
                 _world.SetDebugDraw(null);
             }
-          	_debug = !_debug;  
+            _debug = !_debug;  
         }
-		
-		public function isDebug() : Boolean
-		{
-			return _debug;
-		}
+  
+        public function isDebug() : Boolean
+        {
+            return _debug;
+        }
         
         public function create() : void
         {

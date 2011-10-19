@@ -6,8 +6,8 @@ package game.entity
     
     import flash.display.Sprite;
     import flash.geom.Matrix;
-	import flash.filters.DropShadowFilter;
-	import flash.filters.BitmapFilterQuality;
+    import flash.filters.DropShadowFilter;
+    import flash.filters.BitmapFilterQuality;
     
     /**
      * Platfrom
@@ -27,12 +27,12 @@ package game.entity
             var position : b2Vec2 = new b2Vec2(_position.x / _scale, _position.y / _scale);
             var size : b2Vec2 = new b2Vec2(_size.x / _scale, _size.y / _scale);
                         
-			var shadow : DropShadowFilter = new DropShadowFilter();
-			shadow.distance = 0;
-			shadow.color = 0x333333;
-			shadow.blurX = 2;
-			shadow.blurY = 2;
-			shadow.quality = BitmapFilterQuality.HIGH;
+            var shadow : DropShadowFilter = new DropShadowFilter();
+            shadow.distance = 0;
+            shadow.color = 0x333333;
+            shadow.blurX = 2;
+            shadow.blurY = 2;
+            shadow.quality = BitmapFilterQuality.HIGH;
 
             var sprite : Sprite = new Sprite();
             sprite.graphics.beginBitmapFill(new DebugBitmap());
@@ -40,7 +40,7 @@ package game.entity
             sprite.graphics.drawRect(- _size.x / 2 , - _size.y / 2, _size.x, _size.y);
             sprite.graphics.endFill();
             sprite.cacheAsBitmap = true;
-			sprite.filters = [shadow];
+            sprite.filters = [shadow];
             addChild(sprite);
             
             var bodyDef : b2BodyDef = new b2BodyDef();
