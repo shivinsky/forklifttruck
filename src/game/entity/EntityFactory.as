@@ -14,9 +14,9 @@ package game.entity
             _level = level;
         }
         
-        public function createBox(position : b2Vec2, size : b2Vec2, layer : uint) : void
+        public function createBox(position : b2Vec2, layer : uint) : void
         {
-            _level.add(new Box(position, size, _level.getWorld()), layer);
+            _level.add(new Box(position, new b2Vec2(45, 52), _level.getWorld()), layer);
         }
         
         public function createPlatform(position : b2Vec2, size : b2Vec2, layer : uint) : void

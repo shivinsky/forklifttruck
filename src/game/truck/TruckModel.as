@@ -240,8 +240,8 @@ package game.truck
             var vertices:Array = new Array();
             
             vertices.push(new b2Vec2( - 23 / _scale, 20 / _scale));
-            vertices.push(new b2Vec2( - 23 / _scale, 18 / _scale));
-            vertices.push(new b2Vec2(23 / _scale, 18 / _scale));
+            vertices.push(new b2Vec2( - 23 / _scale, 19 / _scale));
+            vertices.push(new b2Vec2(23 / _scale, 19 / _scale));
             vertices.push(new b2Vec2(23 / _scale, 20 / _scale));
                         
             shape.SetAsArray(vertices);
@@ -249,7 +249,7 @@ package game.truck
             var fixture:b2FixtureDef = new b2FixtureDef();
             fixture.shape = shape;
             fixture.density = 3;
-            fixture.friction = 0;
+            fixture.friction = 0.2;
             fixture.restitution = 0;
             fixture.filter.groupIndex = - 1;
             

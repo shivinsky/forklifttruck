@@ -15,8 +15,8 @@ package game
      */
     public class Game extends Sprite
     {
-        private var _levelManager:LevelManager;
-        private var _currentLevel:Level;
+        private var _levelManager : LevelManager;
+        private var _currentLevel : Level;
         
         public function Game() 
         {
@@ -40,9 +40,21 @@ package game
         private function keyUpListener(e : KeyboardEvent) : void
         {
             // Ctrl + D
-            if (e.keyCode == 68 && e.ctrlKey)
+            if (e.keyCode == 68)
             {
                 _currentLevel.setDebug(!_currentLevel.isDebug());  
+            } 
+            // Restart level
+            // Move to LevelManager?
+            else if (e.keyCode == 82)
+            {
+                if (_currentLevel)
+                {
+                   removeChild(_currentLevel);
+                }
+                _currentLevel = _levelManager.getLevel(0);
+                addChild(_currentLevel);
+                _currentLevel.create();
             }
         }
         
