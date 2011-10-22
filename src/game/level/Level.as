@@ -85,7 +85,7 @@ package game.level
             
             for (var body : b2Body = _world.GetBodyList(); body; body = body.GetNext()) 
             {
-                 if (body.GetUserData() is Sprite) 
+                if (body.IsActive() && body.GetUserData() is Sprite) 
                 {
                     var sprite : Sprite = body.GetUserData();
                     sprite.x = body.GetPosition().x * _scale;

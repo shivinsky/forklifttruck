@@ -8,14 +8,13 @@ package game.truck
     import Box2D.Dynamics.Contacts.*;
     import Box2D.Dynamics.Joints.*;
     
+    import game.entity.*;
+    
     import flash.display.Sprite;
     import flash.events.*;
     
-    public class TruckModel extends Sprite
+    public class TruckModel extends PhysicEntity
     {
-        private var _world:b2World;
-        private var _scale:Number;
-        
         private var _body:b2Body;
         
         private var _leftWheel:b2Body;
@@ -29,22 +28,28 @@ package game.truck
         private var _fork:b2Body;
         private var _forkOffset:int;
         private var _forkJoint:b2PrismaticJoint;
-        
+        private var _forkSensor : b2Fixture;
+       
         private var _flip:Boolean;
         
         /**
          * Truck model
          */
-        public function TruckModel(position:b2Vec2, flip:Boolean, world:b2World, scale:Number) 
+        public function TruckModel(position:b2Vec2, flip:Boolean, world:b2World) 
         {
+            super(position, new b2Vec2(100, 100), world);
             _flip = flip;
-            _world = world;
-            _scale = scale;
 
-            _body = createBody(position, new b2Vec2(123, 103));    
+            create();
+        }
+        
+        private function create(event : Event = null) : void
+        {
+            removeEventListener(Event.ADDED_TO_STAGE, create);
+            _body = createBody(_position, new b2Vec2(123, 103));    
             
-            _leftWheel = createWheel(new b2Vec2(position.x + 30, position.y + 89), 24);
-            _rightWheel = createWheel(new b2Vec2(position.x + 95, position.y + 89), 24);
+            _leftWheel = createWheel(new b2Vec2(_position.x + 30, _position.y + 89), 24);
+            _rightWheel = createWheel(new b2Vec2(_position.x + 95, _position.y + 89), 24);
             
             // FIX THIS SHIT
             _forkOffset = - 46;
@@ -52,7 +57,7 @@ package game.truck
             {
                 _forkOffset = + 123;
             }
-            _fork = createFork(new b2Vec2(position.x + _forkOffset, position.y), new b2Vec2(46, 41));
+            _fork = createFork(new b2Vec2(_position.x + _forkOffset, _position.y), new b2Vec2(46, 41));
                 
             var leftRevoluteJointDef:b2RevoluteJointDef = new  b2RevoluteJointDef();
             leftRevoluteJointDef.Initialize(_leftWheel, _body, _leftWheel.GetWorldCenter());
@@ -76,6 +81,11 @@ package game.truck
             forkPrismaticJointDef.motorSpeed = 0;
             forkPrismaticJointDef.enableMotor = true;
             _forkJoint = _world.CreateJoint(forkPrismaticJointDef) as b2PrismaticJoint;
+        }
+        
+        private function destroy(event : Event) : void
+        {
+            
         }
                         
         private function createWheel(posInPixels:b2Vec2, radiusInPixels:Number):b2Body
@@ -239,12 +249,23 @@ package game.truck
             var fixture:b2FixtureDef = new b2FixtureDef();
             fixture.shape = shape;
             fixture.density = 3;
-            fixture.friction = 0.5;
+            fixture.friction = 0;
             fixture.restitution = 0;
             fixture.filter.groupIndex = - 1;
             
             body.CreateFixture(fixture);
             
+            // Sensors
+            var sensorShape : b2PolygonShape = new b2PolygonShape();
+            sensorShape.SetAsOrientedBox(0.1, 0.1, new b2Vec2(0, 0.4));
+   
+            var sensorFixture : b2FixtureDef = new b2FixtureDef();
+            sensorFixture.shape = sensorShape;
+            sensorFixture.density = 0;
+            sensorFixture.isSensor = true;
+            sensorFixture.filter.groupIndex = - 1;
+
+            _forkSensor = body.CreateFixture(sensorFixture);
             
             return body;
         }
@@ -275,27 +296,50 @@ package game.truck
             // Set fork position
             var forkPos : b2Vec2 = _body.GetPosition();
             forkPos.x += _forkOffset / _scale;
-            forkPos.y = truck._fork.GetPosition().y - 0.1;
+            forkPos.y = truck._fork.GetPosition().y;
             _fork.SetPosition(forkPos);
-
+            
+            transferCargo(truck);
+        }
+        
+        private function transferCargo(truck : TruckModel) : void
+        {
             // Set boxes position
             var boxPos : b2Vec2 = _fork.GetPosition();
             boxPos.x -= 1;
 
             var contactList : b2ContactEdge = truck._fork.GetContactList();
             var contact : b2Contact;
+            var box : b2Fixture = null;
             while (contactList)
             {
                 contact = contactList.contact;
                 if (contact.GetManifold().m_pointCount > 0)
                 {
-                    var box : b2Body = contact.GetFixtureB().GetBody();
-                    box.SetPosition(boxPos);
+                    // Find box
+                    if (contact.GetFixtureA().GetBody().GetUserData() is Box)
+                        box = contact.GetFixtureA();
+                    else if (contact.GetFixtureB().GetBody().GetUserData() is Box)
+                        box = contact.GetFixtureB();
+                        
+                    if (box && box.GetAABB().TestOverlap(truck._forkSensor.GetAABB()))
+                    {
+                        box.GetBody().SetPosition(boxPos);    
+                        break;
+                    }
                 }
                 contactList = contactList.next;
             }
+            
+            // FIX
+            if (box)
+            {
+                var forkPos : b2Vec2 = _fork.GetPosition();
+                forkPos.y -= 0.1;
+                _fork.SetPosition(forkPos);
+            }    
         }
-  
+
         public function setActive(active : Boolean) : void
         {
             _leftWheelJoint.SetMotorSpeed(0);
@@ -310,7 +354,7 @@ package game.truck
             _rightWheel.SetActive(active);
         }
                 
-        public function update() : void
+        public override function update() : void
         {
         }
         
