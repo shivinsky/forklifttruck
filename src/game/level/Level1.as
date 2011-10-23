@@ -23,7 +23,7 @@ package game.level
             _factory.createBox(new b2Vec2(0, 465), LayerType.MIDDLE);
             
             add(new Cone(new b2Vec2(20, 557), new b2Vec2(21, 26)), LayerType.FORE);  
-            add(new Cone(new b2Vec2(40, 557), new b2Vec2(21, 26)), LayerType.FORE); 
+            add(new Cone(new b2Vec2(50, 565), new b2Vec2(21, 26), 110), LayerType.FORE); 
             add(new Truck(new b2Vec2(100, 460), _world), LayerType.MIDDLE);    
             // add(new TurnTrigger(new b2Vec2(450, 450), new b2Vec2(200, 100), _world, _truck), LayerType.MIDDLE);
         }

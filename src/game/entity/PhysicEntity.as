@@ -18,6 +18,9 @@ package game.entity
             
             _world = world;
             _scale = Settings.scale;
+            
+            x = 0;
+            y = 0;
         }
         
     }

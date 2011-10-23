@@ -7,12 +7,16 @@ package game.truck
     import Box2D.Common.b2Settings;
     import Box2D.Dynamics.Contacts.*;
     import Box2D.Dynamics.Joints.*;
+    import flash.geom.Point;
     
     import game.entity.*;
     
     import flash.display.Sprite;
     import flash.events.*;
     
+    /**
+     * Truck model
+     */
     public class TruckModel extends PhysicEntity
     {
         private var _body:b2Body;
@@ -33,13 +37,13 @@ package game.truck
         private var _flip:Boolean;
         
         /**
-         * Truck model
+         * Constructor
          */
         public function TruckModel(position:b2Vec2, flip:Boolean, world:b2World) 
         {
             super(position, new b2Vec2(100, 100), world);
-            _flip = flip;
 
+            _flip = flip;
             create();
         }
         
@@ -47,7 +51,7 @@ package game.truck
         {
             removeEventListener(Event.ADDED_TO_STAGE, create);
             _body = createBody(_position, new b2Vec2(123, 103));    
-            
+
             _leftWheel = createWheel(new b2Vec2(_position.x + 30, _position.y + 89), 24);
             _rightWheel = createWheel(new b2Vec2(_position.x + 95, _position.y + 89), 24);
             

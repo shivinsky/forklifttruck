@@ -27,7 +27,7 @@ package game.truck
         public function Truck(position : b2Vec2, world : b2World) 
         {                    
             super(position, new b2Vec2(100, 100), world);        
-           
+            
             addEventListener(Event.ADDED_TO_STAGE, create, false, 0, true);
             addEventListener(Event.REMOVED_FROM_STAGE, destroy, false, 0, true);
         }

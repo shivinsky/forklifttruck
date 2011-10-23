@@ -42,7 +42,7 @@ package game.entity
             body.CreateFixture(fixtureDef);
             
             var bottomShape : b2PolygonShape = new b2PolygonShape();
-            bottomShape.SetAsOrientedBox(size.x / 2, 0.025, new b2Vec2(0, size.y / 2));
+            bottomShape.SetAsOrientedBox(size.x / 2, 0.025, new b2Vec2(0, size.y / 2 - 0.05));
 
             fixtureDef.shape = bottomShape;
             body.CreateFixture(fixtureDef);
