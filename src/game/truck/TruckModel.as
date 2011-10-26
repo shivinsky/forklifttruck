@@ -65,13 +65,13 @@ package game.truck
                 
             var leftRevoluteJointDef:b2RevoluteJointDef = new  b2RevoluteJointDef();
             leftRevoluteJointDef.Initialize(_leftWheel, _body, _leftWheel.GetWorldCenter());
-            leftRevoluteJointDef.maxMotorTorque = 75.0;
+            leftRevoluteJointDef.maxMotorTorque = 350.0;
             leftRevoluteJointDef.enableMotor = true;
             _leftWheelJoint = _world.CreateJoint(leftRevoluteJointDef) as b2RevoluteJoint;
             
             var rightRevoluteJointDef:b2RevoluteJointDef = new  b2RevoluteJointDef();
             rightRevoluteJointDef.Initialize(_rightWheel, _body, _rightWheel.GetWorldCenter());
-            rightRevoluteJointDef.maxMotorTorque = 75.0;
+            rightRevoluteJointDef.maxMotorTorque = 350.0;
             rightRevoluteJointDef.enableMotor = true;
             _rightWheelJoint = _world.CreateJoint(rightRevoluteJointDef) as b2RevoluteJoint;
             
@@ -81,7 +81,7 @@ package game.truck
             forkPrismaticJointDef.lowerTranslation = -2.3;
             forkPrismaticJointDef.upperTranslation = 0;
             forkPrismaticJointDef.enableLimit = true;
-            forkPrismaticJointDef.maxMotorForce = 500;
+            forkPrismaticJointDef.maxMotorForce = 1500;
             forkPrismaticJointDef.motorSpeed = 0;
             forkPrismaticJointDef.enableMotor = true;
             _forkJoint = _world.CreateJoint(forkPrismaticJointDef) as b2PrismaticJoint;
@@ -100,8 +100,8 @@ package game.truck
             
             var fixture:b2FixtureDef = new b2FixtureDef();
             fixture.shape = shape;
-            fixture.density = 5;
-            fixture.friction = 1;
+            fixture.density = 10;
+            fixture.friction = 10;
             fixture.restitution = 0.1;
             fixture.filter.groupIndex = - 1;
             
@@ -199,7 +199,7 @@ package game.truck
             shapeFork.SetAsArray(verticesFork);
             
             var fixture:b2FixtureDef = new b2FixtureDef();
-            fixture.density = 15;
+            fixture.density = 30;
             fixture.friction = 1;
             fixture.restitution = 0;
             fixture.filter.groupIndex = - 1;
@@ -239,25 +239,51 @@ package game.truck
             addChild(bodyDef.userData);
             
             var body:b2Body = _world.CreateBody(bodyDef);
-            
-            var shape:b2PolygonShape = new b2PolygonShape();
-            var vertices:Array = new Array();
-            
-            vertices.push(new b2Vec2( - 23 / _scale, 20 / _scale));
-            vertices.push(new b2Vec2( - 23 / _scale, 19 / _scale));
-            vertices.push(new b2Vec2(23 / _scale, 19 / _scale));
-            vertices.push(new b2Vec2(23 / _scale, 20 / _scale));
-                        
-            shape.SetAsArray(vertices);
-            
-            var fixture:b2FixtureDef = new b2FixtureDef();
-            fixture.shape = shape;
-            fixture.density = 3;
-            fixture.friction = 0.2;
+			
+            var verticesHor:Array = new Array();
+			
+		    verticesHor.push(new b2Vec2( - 23 / _scale, 19.5 / _scale));
+            verticesHor.push(new b2Vec2( - 23 / _scale, 19 / _scale));
+            verticesHor.push(new b2Vec2(23 / _scale, 19 / _scale));
+            verticesHor.push(new b2Vec2(23 / _scale, 20 / _scale));
+			
+
+                  
+			var verticesVer: Array = new Array();
+			
+			verticesVer.push(new b2Vec2( 18 / _scale, 20 / _scale));
+			verticesVer.push(new b2Vec2( 18 / _scale, -20 / _scale));
+			verticesVer.push(new b2Vec2( 23 / _scale, -20 / _scale));
+			verticesVer.push(new b2Vec2( 23 / _scale, 20 / _scale));
+			
+			
+			if (_flip)
+            {
+                verticesHor.reverse();
+                verticesHor.forEach(invertAxis);
+                
+                verticesVer.reverse();
+                verticesVer.forEach(invertAxis);
+            }
+			
+			var shapeHor:b2PolygonShape = new b2PolygonShape();
+			var shapeVer:b2PolygonShape = new b2PolygonShape();
+			
+			shapeHor.SetAsArray(verticesHor);
+			shapeVer.SetAsArray(verticesVer);
+			
+			var fixture:b2FixtureDef = new b2FixtureDef();
+			
+            fixture.density = 5;
+            fixture.friction = 0.5;
             fixture.restitution = 0;
             fixture.filter.groupIndex = - 1;
-            
-            body.CreateFixture(fixture);
+			
+			fixture.shape = shapeHor;
+			body.CreateFixture(fixture);
+			
+			fixture.shape = shapeVer;
+			body.CreateFixture(fixture);
             
             // Sensors
             var sensorShape : b2PolygonShape = new b2PolygonShape();
