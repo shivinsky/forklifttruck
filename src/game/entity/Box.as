@@ -36,13 +36,13 @@ package game.entity
             
             var fixtureDef : b2FixtureDef = new b2FixtureDef();
             fixtureDef.shape = polygonShape;
-            fixtureDef.density = 0.5;
-            fixtureDef.friction = 1;
+            fixtureDef.density = 3;
+            fixtureDef.friction = 1000000;
             fixtureDef.restitution = 0;
             body.CreateFixture(fixtureDef);
             
             var bottomShape : b2PolygonShape = new b2PolygonShape();
-            bottomShape.SetAsOrientedBox(size.x / 2, 0.025, new b2Vec2(0, size.y / 2 - 0.05));
+            bottomShape.SetAsOrientedBox(size.x / 2, 0.005, new b2Vec2(0, size.y / 2 - 0.005));
 
             fixtureDef.shape = bottomShape;
             body.CreateFixture(fixtureDef);
